@@ -1,2 +1,3 @@
-# gimnasio
+# GYM
+
 proyecto integrador de gimnasio
