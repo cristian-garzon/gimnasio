@@ -22,8 +22,21 @@ public class conexion {
                     JOptionPane.showMessageDialog(null, "error al conectar: "+e);
                 }
                 break;
-            case "base 2":
-                // aca la opcion para conectar la base Sebastian
+            case "oracle":
+                 Connection conexion = null;
+                 String url = "jdbc:oracle:thin:@localhost:1521:XE";
+                 String user = "system"; //Este es el usuario System
+                 String password = "daniel22p3"; //La contraseña que cada uno tenga en su DB
+                try{
+                    Class.forName("oracle.jdbc.driver.OracleDriver");
+                    conexion = DriverManager.getConnection(url, user, password);
+                    if( conexion != null){
+                        JOptionPane.showMessageDialog(null, "Conexion exitosa"+conexion);
+                    }
+                    
+                }catch(ClassNotFoundException | SQLException e){
+                    JOptionPane.showMessageDialog(null, "ERROR"+e.toString());
+                }
                 break;
             case "base 3":
                 /// aca, la accion para conectar la base Daniel
