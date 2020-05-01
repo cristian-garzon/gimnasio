@@ -1,6 +1,7 @@
 package Vista;
 
 import Modelo.JavaConexion;
+import java.awt.BorderLayout;
 import java.awt.Image;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -13,6 +14,11 @@ public class gimnasio extends javax.swing.JFrame {
 
     public gimnasio() {
         initComponents();
+        this.setSize(950, 550);
+        this.setResizable(false);
+        setLocationRelativeTo(null);
+        setIconImage(new ImageIcon(getClass().getResource("/imagenes/Logov1_opt.jpg")).getImage());
+        this.repaint();
     }
 
     @SuppressWarnings("unchecked")
@@ -20,32 +26,78 @@ public class gimnasio extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jPanel2 = new javax.swing.JPanel();
+        jButton1 = new javax.swing.JButton();
+        listar_usuarios = new javax.swing.JButton();
+        contenedor = new javax.swing.JPanel();
         presentacion = new javax.swing.JLabel();
-        fondo = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel1.setBackground(new java.awt.Color(0, 102, 102));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jButton1.setText("listar productos");
+        jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 190, -1, -1));
+
+        listar_usuarios.setText("listar usuarios");
+        listar_usuarios.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                listar_usuariosActionPerformed(evt);
+            }
+        });
+        jPanel1.add(listar_usuarios, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 100, -1, -1));
+
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 200, 550));
 
-        jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
         presentacion.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        jPanel2.add(presentacion, new org.netbeans.lib.awtextra.AbsoluteConstraints(18, 15, 340, 20));
-        jPanel2.add(fondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 750, 550));
 
-        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 0, 750, 550));
+        javax.swing.GroupLayout contenedorLayout = new javax.swing.GroupLayout(contenedor);
+        contenedor.setLayout(contenedorLayout);
+        contenedorLayout.setHorizontalGroup(
+            contenedorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(contenedorLayout.createSequentialGroup()
+                .addGap(18, 18, 18)
+                .addComponent(presentacion, javax.swing.GroupLayout.PREFERRED_SIZE, 460, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(272, Short.MAX_VALUE))
+        );
+        contenedorLayout.setVerticalGroup(
+            contenedorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(contenedorLayout.createSequentialGroup()
+                .addGap(15, 15, 15)
+                .addComponent(presentacion, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(505, 505, 505))
+        );
+
+        getContentPane().add(contenedor, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 0, 750, 550));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void listar_usuariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_listar_usuariosActionPerformed
+        //if(BD.estatus(nombre, cedula).equals("administrador")){
+        listaU l1 = new listaU();
+        l1.getcredenciales(nombre, cedula, BD);
+        if (BD.estatus(nombre, cedula).equals("administrador")) {
+            l1.mostrar_tabla_admin();
+        }
+        else{
+            l1.mostrar_tabla_empleado();
+        }
+        l1.setSize(750, 550);
+        l1.setLocation(0, 0);
+        contenedor.removeAll();
+        contenedor.add(l1, BorderLayout.CENTER);
+        contenedor.revalidate();
+        contenedor.repaint();
+        //}
+    }//GEN-LAST:event_listar_usuariosActionPerformed
 
     public void getcredenciales(String nombre, String cedula, JavaConexion BD) {
         this.nombre = nombre;
         this.cedula = cedula;
         this.BD = BD;
+        presentacion.setText("BIENVENIDO " + nombre + " [" + BD.estatus(nombre, cedula) + "]");
     }
 
     /**
@@ -84,9 +136,10 @@ public class gimnasio extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel fondo;
+    private javax.swing.JPanel contenedor;
+    private javax.swing.JButton jButton1;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
+    private javax.swing.JButton listar_usuarios;
     private javax.swing.JLabel presentacion;
     // End of variables declaration//GEN-END:variables
 }

@@ -16,8 +16,8 @@ import javax.swing.JOptionPane;
 public class log extends javax.swing.JFrame {
 
     JavaConexion conexion;
-    String usuario ;
-    String password ;
+    String usuario;
+    String password;
 
     public void setUsuario(String usuario) {
         this.usuario = usuario;
@@ -38,11 +38,11 @@ public class log extends javax.swing.JFrame {
     public void getBD(JavaConexion conexion) {
         this.conexion = conexion;
     }
-    
 
     public log() {
         initComponents();
         this.setSize(879, 496);
+        this.setResizable(false);
         setLocationRelativeTo(null);
         setIconImage(new ImageIcon(getClass().getResource("/imagenes/Logov1_opt.jpg")).getImage());
         this.repaint();
@@ -168,17 +168,18 @@ public class log extends javax.swing.JFrame {
         String user = txtUsuario.getText();
         String pass = txtContraseña.getText();
         if (conexion.validarUsuario(user, pass)) {
-            gimnasio g1=new gimnasio();
-            g1.setVisible(true);
+            gimnasio g1 = new gimnasio();
             g1.getcredenciales(user, pass, conexion);
+            g1.setVisible(true);
             dispose();
         } else {
             JOptionPane.showMessageDialog(null, "datos incorrectos");
         }
     }//GEN-LAST:event_botonRegistrarActionPerformed
-    public void getCredenciales(String user, String password,JavaConexion BD){
-        
+    public void getCredenciales(String user, String password, JavaConexion BD) {
+
     }
+
     /**
      * @param args the command line arguments
      */

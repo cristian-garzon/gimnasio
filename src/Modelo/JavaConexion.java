@@ -1,5 +1,6 @@
 package Modelo;
 
+import Controlador.lista_usuarios;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -89,7 +90,14 @@ public class JavaConexion {
             return false;
         }
     }
-
+    //metodo para eliminar el datp que pasan
+    public void eliminar(String cedula){
+        try {
+            st=cn.createStatement();
+            rs=st.executeQuery("DELETE FROM usuarios where cedula="+cedula);
+        } catch (SQLException e) {
+        }
+    }
     public void consulta(String id) {
         try {
             String sql = "select nombre,telefono,correo,direccion,estatus,tipo_usuario from usuarios where cedula =  " + id;
@@ -125,5 +133,19 @@ public class JavaConexion {
 
         }
 
+    }
+    //metodo para listar los usuarios
+    public lista_usuarios listar() {
+        lista_usuarios lista = new lista_usuarios();
+        try {
+            st = cn.createStatement();
+            rs = st.executeQuery("SELECT * FROM USUARIOS");
+            while (rs.next()) {
+                lista.agregar(Long.parseLong(rs.getString(1)), rs.getString(2), Long.parseLong(rs.getString(3)), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7));
+            }
+        } catch (SQLException e) {
+            System.out.println("error al listar");
+        }
+        return lista;
     }
 }
