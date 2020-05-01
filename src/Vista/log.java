@@ -6,8 +6,8 @@
 package Vista;
 
 import Modelo.JavaConexion;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
-import org.netbeans.lib.awtextra.AbsoluteLayout;
 
 /**
  *
@@ -15,11 +15,9 @@ import org.netbeans.lib.awtextra.AbsoluteLayout;
  */
 public class log extends javax.swing.JFrame {
 
-    /**
-     * Creates new form Interfaz
-     */
-    String usuario=null;
-    String password=null;
+    JavaConexion conexion;
+    String usuario ;
+    String password ;
 
     public void setUsuario(String usuario) {
         this.usuario = usuario;
@@ -36,9 +34,18 @@ public class log extends javax.swing.JFrame {
     public String getPassword() {
         return password;
     }
+
+    public void getBD(JavaConexion conexion) {
+        this.conexion = conexion;
+    }
+    
+
     public log() {
         initComponents();
+        this.setSize(879, 496);
         setLocationRelativeTo(null);
+        setIconImage(new ImageIcon(getClass().getResource("/imagenes/Logov1_opt.jpg")).getImage());
+        this.repaint();
     }
 
     /**
@@ -158,19 +165,20 @@ public class log extends javax.swing.JFrame {
     }//GEN-LAST:event_txtContraseñaFocusGained
 
     private void botonRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonRegistrarActionPerformed
-        // TODO add your handling code here:
-         JavaConexion conexion = new JavaConexion("login");
         String user = txtUsuario.getText();
         String pass = txtContraseña.getText();
-        if(conexion.isConectado()){
-            if(conexion.validarUsuario(user, pass)){
-                JOptionPane.showMessageDialog(null, "Bienvenido"+user);
-            }
-        }else{
-            JOptionPane.showMessageDialog(null,"Problema en la conexion");
+        if (conexion.validarUsuario(user, pass)) {
+            gimnasio g1=new gimnasio();
+            g1.setVisible(true);
+            g1.getcredenciales(user, pass, conexion);
+            dispose();
+        } else {
+            JOptionPane.showMessageDialog(null, "datos incorrectos");
         }
     }//GEN-LAST:event_botonRegistrarActionPerformed
-
+    public void getCredenciales(String user, String password,JavaConexion BD){
+        
+    }
     /**
      * @param args the command line arguments
      */
