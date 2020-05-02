@@ -36,28 +36,32 @@ public class lista_usuarios {
         return tamaño;
     }
 
-    public String[][] listado_admin(JavaConexion BD) {
-        int i = 0;
-        lista_usuarios lista = BD.listar();
-        String informacion[][] = new String[lista.getTamaño()][7];
-        Nodo_usuarios p = lista.ultimo.sig;
-        do {
-            informacion[i][0] = "" + p.getCedula();
-            informacion[i][1] = p.getNombre();
-            informacion[i][2] = "" + p.getTelefono();
-            informacion[i][3] = p.getCorreo();
-            informacion[i][4] = p.getDireccion();
-            informacion[i][5] = p.getEstatus();
-            informacion[i][6] = p.getTipo_usuario();
-            i++;
-            p = p.sig;
-        } while (p != lista.ultimo.sig);
-        return informacion;
+    public String[][] listado_admin(JavaConexion BD, String filtro) {
+        lista_usuarios lista = BD.listar(filtro);
+        if (!lista.vacio()) {
+            int i = 0;
+            String informacion[][] = new String[lista.getTamaño()][7];
+            Nodo_usuarios p = lista.ultimo.sig;
+            do {
+                informacion[i][0] = "" + p.getCedula();
+                informacion[i][1] = p.getNombre();
+                informacion[i][2] = "" + p.getTelefono();
+                informacion[i][3] = p.getCorreo();
+                informacion[i][4] = p.getDireccion();
+                informacion[i][5] = p.getEstatus();
+                informacion[i][6] = p.getTipo_usuario();
+                i++;
+                p = p.sig;
+            } while (p != lista.ultimo.sig);
+            return informacion;
+        }
+        String nada[][] = new String[0][0];
+        return nada;
     }
 
-    public String[][] listado_empleado(JavaConexion BD) {
+    public String[][] listado_empleado(JavaConexion BD, String filtro) {
         int i = 0;
-        lista_usuarios lista = BD.listar();
+        lista_usuarios lista = BD.listar(filtro);
         String informacion[][] = new String[lista.getTamaño()][4];
         Nodo_usuarios p = lista.ultimo.sig;
         do {
@@ -66,7 +70,7 @@ public class lista_usuarios {
             informacion[i][2] = p.getCorreo();
             informacion[i][3] = p.getEstatus();
             i++;
-            p=p.sig;
+            p = p.sig;
         } while (p != lista.ultimo.sig);
         return informacion;
     }

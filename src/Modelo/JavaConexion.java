@@ -123,23 +123,20 @@ public class JavaConexion {
 
     }
 
-    public void update(String nombre, String cedula) {
+    public void update(long cedula,String nombre, long telefono,String correo,String direccion,String estatus,String tipo_usuario) {
         try {
-            String sql = "update usuarios set nombre = " + nombre + " where cedula =" + cedula;
             st = cn.createStatement();
-            st.executeUpdate(sql);
+            st.executeUpdate( "update usuarios set nombre = '" + nombre + "', telefono="+telefono+",correo='"+correo+"',direccion='"+direccion+"',estatus='"+estatus+"', tipo_usuario='"+tipo_usuario+"'  where cedula =" + cedula);
         } catch (SQLException e) {
             System.out.println("Error " + e.toString());
-
         }
-
     }
     //metodo para listar los usuarios
-    public lista_usuarios listar() {
+    public lista_usuarios listar(String filtro) {
         lista_usuarios lista = new lista_usuarios();
         try {
             st = cn.createStatement();
-            rs = st.executeQuery("SELECT * FROM USUARIOS");
+            rs = st.executeQuery("SELECT * FROM USUARIOS where nombre like '"+filtro+"%'");
             while (rs.next()) {
                 lista.agregar(Long.parseLong(rs.getString(1)), rs.getString(2), Long.parseLong(rs.getString(3)), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7));
             }

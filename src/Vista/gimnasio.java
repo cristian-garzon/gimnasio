@@ -28,10 +28,12 @@ public class gimnasio extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
         listar_usuarios = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
         contenedor = new javax.swing.JPanel();
         presentacion = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setUndecorated(true);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel1.setBackground(new java.awt.Color(0, 102, 102));
@@ -48,6 +50,14 @@ public class gimnasio extends javax.swing.JFrame {
         });
         jPanel1.add(listar_usuarios, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 100, -1, -1));
 
+        jButton2.setText("salir");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 300, -1, -1));
+
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 200, 550));
 
         presentacion.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
@@ -58,15 +68,15 @@ public class gimnasio extends javax.swing.JFrame {
             contenedorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(contenedorLayout.createSequentialGroup()
                 .addGap(18, 18, 18)
-                .addComponent(presentacion, javax.swing.GroupLayout.PREFERRED_SIZE, 460, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(272, Short.MAX_VALUE))
+                .addComponent(presentacion, javax.swing.GroupLayout.PREFERRED_SIZE, 555, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(177, Short.MAX_VALUE))
         );
         contenedorLayout.setVerticalGroup(
             contenedorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(contenedorLayout.createSequentialGroup()
                 .addGap(15, 15, 15)
-                .addComponent(presentacion, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(505, 505, 505))
+                .addComponent(presentacion, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(499, Short.MAX_VALUE))
         );
 
         getContentPane().add(contenedor, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 0, 750, 550));
@@ -79,10 +89,10 @@ public class gimnasio extends javax.swing.JFrame {
         listaU l1 = new listaU();
         l1.getcredenciales(nombre, cedula, BD);
         if (BD.estatus(nombre, cedula).equals("administrador")) {
-            l1.mostrar_tabla_admin();
+            l1.mostrar_tabla_admin("");
         }
         else{
-            l1.mostrar_tabla_empleado();
+            l1.mostrar_tabla_empleado("");
         }
         l1.setSize(750, 550);
         l1.setLocation(0, 0);
@@ -92,6 +102,10 @@ public class gimnasio extends javax.swing.JFrame {
         contenedor.repaint();
         //}
     }//GEN-LAST:event_listar_usuariosActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        System.exit(0);
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     public void getcredenciales(String nombre, String cedula, JavaConexion BD) {
         this.nombre = nombre;
@@ -138,6 +152,7 @@ public class gimnasio extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel contenedor;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JButton listar_usuarios;
     private javax.swing.JLabel presentacion;
