@@ -1,5 +1,4 @@
 package Vista;
-
 import Modelo.JavaConexion;
 import java.awt.BorderLayout;
 import java.awt.Image;
@@ -26,9 +25,9 @@ public class gimnasio extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
+        listar_productos = new javax.swing.JButton();
         listar_usuarios = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        salir = new javax.swing.JButton();
         contenedor = new javax.swing.JPanel();
         presentacion = new javax.swing.JLabel();
 
@@ -39,8 +38,13 @@ public class gimnasio extends javax.swing.JFrame {
         jPanel1.setBackground(new java.awt.Color(0, 102, 102));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jButton1.setText("listar productos");
-        jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 190, -1, -1));
+        listar_productos.setText("listar productos");
+        listar_productos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                listar_productosActionPerformed(evt);
+            }
+        });
+        jPanel1.add(listar_productos, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 190, -1, -1));
 
         listar_usuarios.setText("listar usuarios");
         listar_usuarios.addActionListener(new java.awt.event.ActionListener() {
@@ -50,13 +54,13 @@ public class gimnasio extends javax.swing.JFrame {
         });
         jPanel1.add(listar_usuarios, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 100, -1, -1));
 
-        jButton2.setText("salir");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        salir.setText("salir");
+        salir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                salirActionPerformed(evt);
             }
         });
-        jPanel1.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 300, -1, -1));
+        jPanel1.add(salir, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 300, -1, -1));
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 200, 550));
 
@@ -85,7 +89,6 @@ public class gimnasio extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void listar_usuariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_listar_usuariosActionPerformed
-        //if(BD.estatus(nombre, cedula).equals("administrador")){
         listaU l1 = new listaU();
         l1.getcredenciales(nombre, cedula, BD);
         if (BD.estatus(nombre, cedula).equals("administrador")) {
@@ -100,12 +103,23 @@ public class gimnasio extends javax.swing.JFrame {
         contenedor.add(l1, BorderLayout.CENTER);
         contenedor.revalidate();
         contenedor.repaint();
-        //}
     }//GEN-LAST:event_listar_usuariosActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void salirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_salirActionPerformed
         System.exit(0);
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_salirActionPerformed
+
+    private void listar_productosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_listar_productosActionPerformed
+        productos p1=new productos();
+        p1.getcredenciales(nombre, cedula, BD);
+        p1.mostrar_tabla("");
+        p1.setSize(750,550);
+        p1.setLocation(0, 0);
+        contenedor.removeAll();
+        contenedor.add(p1, BorderLayout.CENTER);
+        contenedor.revalidate();
+        contenedor.repaint();        
+    }//GEN-LAST:event_listar_productosActionPerformed
 
     public void getcredenciales(String nombre, String cedula, JavaConexion BD) {
         this.nombre = nombre;
@@ -151,10 +165,10 @@ public class gimnasio extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel contenedor;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JButton listar_productos;
     private javax.swing.JButton listar_usuarios;
     private javax.swing.JLabel presentacion;
+    private javax.swing.JButton salir;
     // End of variables declaration//GEN-END:variables
 }

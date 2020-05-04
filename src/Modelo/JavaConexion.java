@@ -1,5 +1,6 @@
 package Modelo;
 
+import Controlador.lista_producto;
 import Controlador.lista_usuarios;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -8,10 +9,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import javax.swing.JOptionPane;
 
-/**
- *
- * @author Daniel
- */
 public class JavaConexion {
 
     Connection cn;
@@ -90,12 +87,30 @@ public class JavaConexion {
             return false;
         }
     }
+
     //metodo para eliminar el datp que pasan
-    public void eliminar(String cedula){
+    public void eliminar(String cedula) {
+        try {
+            st = cn.createStatement();
+            rs = st.executeQuery("DELETE FROM usuarios where cedula=" + cedula);
+        } catch (SQLException e) {
+        }
+    }
+    //metodo para eliminar al producto papaaaaa
+    public void eliminarp(String id_producto){
         try {
             st=cn.createStatement();
-            rs=st.executeQuery("DELETE FROM usuarios where cedula="+cedula);
+            rs=st.executeQuery("DELETE FROM productos where id_productos="+id_producto);
         } catch (SQLException e) {
+        }
+    }
+    //actualizar producto
+    public void updatep(long producto,String tipo,int precio,String peso,String detalles,int cantidad){
+        try {
+            st=cn.createStatement();
+            rs=st.executeQuery("UPDATE productos set tipo='"+tipo+"',cantidad="+cantidad+",precio="+precio+",peso='"+peso+"',detalles='"+detalles+"'"+"where id_productos="+producto);
+        } catch (SQLException e) {
+            System.out.println("error al actualizar "+e);
         }
     }
     public void consulta(String id) {
@@ -123,25 +138,41 @@ public class JavaConexion {
 
     }
 
-    public void update(long cedula,String nombre, long telefono,String correo,String direccion,String estatus,String tipo_usuario) {
+    public void update(long cedula, String nombre, long telefono, String correo, String direccion, String estatus, String tipo_usuario) {
         try {
             st = cn.createStatement();
-            st.executeUpdate( "update usuarios set nombre = '" + nombre + "', telefono="+telefono+",correo='"+correo+"',direccion='"+direccion+"',estatus='"+estatus+"', tipo_usuario='"+tipo_usuario+"'  where cedula =" + cedula);
+            st.executeUpdate("update usuarios set nombre = '" + nombre + "', telefono=" + telefono + ",correo='" + correo + "',direccion='" + direccion + "',estatus='" + estatus + "', tipo_usuario='" + tipo_usuario + "'  where cedula =" + cedula);
         } catch (SQLException e) {
             System.out.println("Error " + e.toString());
         }
     }
+
     //metodo para listar los usuarios
     public lista_usuarios listar(String filtro) {
         lista_usuarios lista = new lista_usuarios();
         try {
             st = cn.createStatement();
-            rs = st.executeQuery("SELECT * FROM USUARIOS where nombre like '"+filtro+"%'");
+            rs = st.executeQuery("SELECT * FROM USUARIOS where nombre like '" + filtro + "%'");
             while (rs.next()) {
                 lista.agregar(Long.parseLong(rs.getString(1)), rs.getString(2), Long.parseLong(rs.getString(3)), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7));
             }
         } catch (SQLException e) {
-            System.out.println("error al listar");
+            System.out.println("error al listar "+e);
+        }
+        return lista;
+    }
+
+    //metodo para listar los productos
+    public lista_producto listarP(String filtro) {
+        lista_producto lista = new lista_producto();
+        try {
+            st = cn.createStatement();
+            rs = st.executeQuery("SELECT * FROM PRODUCTOS where TIPO like '" + filtro + "%'");
+            while (rs.next()) {
+                lista.agregar(Integer.parseInt(rs.getString(1)), rs.getString(2), Integer.parseInt(rs.getString(3)), Integer.parseInt(rs.getString(4)), rs.getString(5), rs.getString(6));
+            }
+        } catch (SQLException e) {
+            System.out.println("ERROR AL LISTAR "+e);
         }
         return lista;
     }

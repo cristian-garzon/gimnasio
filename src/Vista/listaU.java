@@ -46,7 +46,7 @@ public class listaU extends javax.swing.JPanel {
 
     public void mostrar_tabla_admin(String filtro) {
         lista_usuarios lista = new lista_usuarios();
-        String Titulos[] = {"CEDULA", "NOMBRE", "TELEFONO", "CORREO", "DIRECCION", "ESTATUS", "TIPO DE USUARIO"};
+        String Titulos[] = {"CEDULA", "NOMBRE", "TELEFONO", "CORREO", "DIRECCION", "ESTATUS", "TIPO USUARIO"};
         String informacion[][] = lista.listado_admin(BD, filtro);
         tabla = new JTable(informacion, Titulos);
         contenedor.setViewportView(tabla);
@@ -93,20 +93,32 @@ public class listaU extends javax.swing.JPanel {
 
         tabla.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Title 1", "Title 2", "Title 3", "Title 4", "Title 5", "Title 6", "Title 7"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                true, true, true, false, true, true, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         tabla.getTableHeader().setResizingAllowed(false);
         tabla.getTableHeader().setReorderingAllowed(false);
         contenedor.setViewportView(tabla);
+        if (tabla.getColumnModel().getColumnCount() > 0) {
+            tabla.getColumnModel().getColumn(6).setResizable(false);
+            tabla.getColumnModel().getColumn(6).setPreferredWidth(120);
+        }
 
-        add(contenedor, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 120, 662, 120));
+        add(contenedor, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 120, 730, 120));
 
         eliminar.setText("eliminar");
         eliminar.addActionListener(new java.awt.event.ActionListener() {
@@ -123,9 +135,9 @@ public class listaU extends javax.swing.JPanel {
             }
         });
         add(modificar, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 250, -1, 30));
-        add(nombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 310, 150, -1));
-        add(correo, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 380, 150, -1));
-        add(telefono, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 450, 150, -1));
+        add(nombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 310, 220, -1));
+        add(correo, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 380, 220, -1));
+        add(telefono, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 450, 220, -1));
 
         direccion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -144,19 +156,19 @@ public class listaU extends javax.swing.JPanel {
         jLabel2.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("nombre: ");
-        add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 310, -1, -1));
+        add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 310, -1, -1));
 
         jLabel3.setBackground(new java.awt.Color(255, 255, 255));
         jLabel3.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("correo: ");
-        add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 380, -1, -1));
+        add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 380, -1, -1));
 
         jLabel4.setBackground(new java.awt.Color(255, 255, 255));
         jLabel4.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
         jLabel4.setText("telefono: ");
-        add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 450, -1, -1));
+        add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 450, -1, -1));
 
         jLabel5.setBackground(new java.awt.Color(255, 255, 255));
         jLabel5.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
@@ -211,9 +223,9 @@ public class listaU extends javax.swing.JPanel {
         int fila = tabla.getSelectedRow();
         if (fila >= 0) {
             BD.eliminar(tabla.getValueAt(fila, 0).toString());
+            mostrar_tabla_admin("");
         } else {
             JOptionPane.showMessageDialog(null, "tiene que escojer una fila para eliminarla");
-
         }
     }//GEN-LAST:event_eliminarActionPerformed
 
