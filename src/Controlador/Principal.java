@@ -1,13 +1,7 @@
 package Controlador;
 
 import Vista.eleccion_gym_db;
-import javax.swing.JOptionPane;
-import javax.swing.WindowConstants;
 
-/**
- *
- * @author Daniel
- */
 public class Principal {
 
     public static void main(String[] args) {

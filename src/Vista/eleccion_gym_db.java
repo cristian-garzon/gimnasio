@@ -104,9 +104,13 @@ public class eleccion_gym_db extends javax.swing.JFrame {
     }//GEN-LAST:event_postgresqlActionPerformed
 
     private void mysqlActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mysqlActionPerformed
-        // TODO add your handling code here:
-
-
+        //Agregando conexion con Mysql, probarlo
+        BD = new JavaConexion("mysql");
+        BD.conectar();
+        log log = new log();
+        log.getBD(BD);
+        log.setVisible(true);
+        dispose();
     }//GEN-LAST:event_mysqlActionPerformed
 
     private void oracleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_oracleActionPerformed

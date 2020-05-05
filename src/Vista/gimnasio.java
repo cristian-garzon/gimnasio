@@ -8,11 +8,11 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
 public class gimnasio extends javax.swing.JFrame {
-
+    
     String nombre;
     String cedula;
     JavaConexion BD;
-
+    
     public gimnasio() {
         initComponents();
         AsignarTransparencia();
@@ -23,7 +23,7 @@ public class gimnasio extends javax.swing.JFrame {
         this.repaint();
         AgregarPanel();
     }
-
+    
     public void AgregarPanel() {
         contenedor_horario panel = new contenedor_horario();
         panel.setSize(750, 550);
@@ -33,7 +33,7 @@ public class gimnasio extends javax.swing.JFrame {
         contenedor.revalidate();
         contenedor.repaint();
     }
-
+    
     public void AsignarTransparencia() {
         Agregar_usuario.setOpaque(false);
         Agregar_usuario.setBackground(new Color(0, 0, 0, 0));
@@ -48,7 +48,7 @@ public class gimnasio extends javax.swing.JFrame {
         salir.setOpaque(false);
         salir.setBackground(new Color(0, 0, 0, 0));
     }
-
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -197,7 +197,10 @@ public class gimnasio extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void Agregar_usuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Agregar_usuarioActionPerformed
-        // TODO add your handling code here:
+        //Agregando la Funcionalidad del Boton
+        AgregarUsuario agregar = new AgregarUsuario();
+        agregar.setVisible(true);
+        this.setVisible(false);
     }//GEN-LAST:event_Agregar_usuarioActionPerformed
 
     private void listar_usuarios1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_listar_usuarios1ActionPerformed
@@ -252,7 +255,7 @@ public class gimnasio extends javax.swing.JFrame {
         // TODO add your handling code here:
         System.exit(0);
     }//GEN-LAST:event_salirActionPerformed
-
+    
     public void getcredenciales(String nombre, String cedula, JavaConexion BD) {
         this.nombre = nombre;
         this.cedula = cedula;
@@ -290,7 +293,9 @@ public class gimnasio extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new gimnasio().setVisible(true);
+                //Aqui no se preocupen funciona igual, solo es para enviarlo como variable 
+                gimnasio Gym = new gimnasio();
+                Gym.setVisible(true);
             }
         });
     }

@@ -1,9 +1,12 @@
 package Modelo;
 
+import Controlador.Lista_compra;
+import Controlador.Nodo_usuarios;
 import Controlador.lista_producto;
 import Controlador.lista_usuarios;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -18,6 +21,10 @@ public class JavaConexion {
     private String opcion;
     Statement st;
     ResultSet rs;
+
+    public JavaConexion() {
+
+    }
 
     public JavaConexion(String opcion) {
         this.opcion = opcion;
@@ -51,7 +58,18 @@ public class JavaConexion {
                 }
                 break;
             case "mysql":
-                //aqui poner la conexion a mysql
+                //Dejar todo por defecto y solo modicar (persona) que se refiere el nombre de la base de datos 
+                //Modicar el usuario y contraseña para que se acomode a su base de datos
+                //Cambiar esos datos en el Metodo Insert que cree ,en lo ultimo
+                url = "jdbc:mysql://localhost/proyecto?useSSL=false&useTimezone=true&serverTimezone=UTC";
+                user = "root";
+                password = "admin";
+                try {
+                    cn = DriverManager.getConnection(url, user, password);
+                    JOptionPane.showMessageDialog(null, "Conectado a MySql");
+                } catch (SQLException e1) {
+                    e1.printStackTrace(System.out);
+                }
 
                 break;
         }
@@ -96,23 +114,26 @@ public class JavaConexion {
         } catch (SQLException e) {
         }
     }
+
     //metodo para eliminar al producto papaaaaa
-    public void eliminarp(String id_producto){
+    public void eliminarp(String id_producto) {
         try {
-            st=cn.createStatement();
-            rs=st.executeQuery("DELETE FROM productos where id_productos="+id_producto);
+            st = cn.createStatement();
+            rs = st.executeQuery("DELETE FROM productos where id_productos=" + id_producto);
         } catch (SQLException e) {
         }
     }
+
     //actualizar producto
-    public void updatep(long producto,String tipo,int precio,String peso,String detalles,int cantidad){
+    public void updatep(long producto, String tipo, int precio, String peso, String detalles, int cantidad) {
         try {
-            st=cn.createStatement();
-            rs=st.executeQuery("UPDATE productos set tipo='"+tipo+"',cantidad="+cantidad+",precio="+precio+",peso='"+peso+"',detalles='"+detalles+"'"+"where id_productos="+producto);
+            st = cn.createStatement();
+            rs = st.executeQuery("UPDATE productos set tipo='" + tipo + "',cantidad=" + cantidad + ",precio=" + precio + ",peso='" + peso + "',detalles='" + detalles + "'" + "where id_productos=" + producto);
         } catch (SQLException e) {
-            System.out.println("error al actualizar "+e);
+            System.out.println("error al actualizar " + e);
         }
     }
+
     public void consulta(String id) {
         try {
             String sql = "select nombre,telefono,correo,direccion,estatus,tipo_usuario from usuarios where cedula =  " + id;
@@ -157,7 +178,7 @@ public class JavaConexion {
                 lista.agregar(Long.parseLong(rs.getString(1)), rs.getString(2), Long.parseLong(rs.getString(3)), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7));
             }
         } catch (SQLException e) {
-            System.out.println("error al listar "+e);
+            System.out.println("error al listar " + e);
         }
         return lista;
     }
@@ -172,10 +193,11 @@ public class JavaConexion {
                 lista.agregar(Integer.parseInt(rs.getString(1)), rs.getString(2), Integer.parseInt(rs.getString(3)), Integer.parseInt(rs.getString(4)), rs.getString(5), rs.getString(6));
             }
         } catch (SQLException e) {
-            System.out.println("ERROR AL LISTAR "+e);
+            System.out.println("ERROR AL LISTAR " + e);
         }
         return lista;
     }
+
     //Metodo para poder listar  usado en ventana_comprar
     public Lista_compra MostrarCompra() {
         Lista_compra Lista = new Lista_compra();
@@ -271,6 +293,25 @@ public class JavaConexion {
             return 0;
         }
     }
-    
-    
+
+    //COMMINT 
+//Agregando Metodo INSERTAR DATOS para MySql
+    public int insert(Nodo_usuarios usuario) {
+        /*
+        Si no pusieron (usuario como el nombre de su tabla),pueden cambiarlo para que les funcione
+         */
+        String SQL_INSERT = "INSERT INTO usuario(cedula,nombre,telefono,correo,direccion,estatus,tipo_usuario) VALUES(" + usuario.getCedula() + "," + usuario.getNombre() + ", " + usuario.getTelefono() + ", " + usuario.getCorreo() + "," + usuario.getDireccion() + ", " + usuario.getEstatus() + ", " + usuario.getTipo_usuario() + ")";
+        PreparedStatement stmt = null;
+        int rows = 0;
+        try {
+            st = cn.createStatement();
+            st.executeQuery(SQL_INSERT);
+            rows = stmt.executeUpdate();
+            //System.out.println("Registros afectados: " + rows);
+        } catch (SQLException ex) {
+            ex.printStackTrace(System.out);
+        }
+        return rows;
+    }
+
 }
