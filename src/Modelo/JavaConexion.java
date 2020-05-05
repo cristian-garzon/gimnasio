@@ -176,4 +176,101 @@ public class JavaConexion {
         }
         return lista;
     }
+    //Metodo para poder listar  usado en ventana_comprar
+    public Lista_compra MostrarCompra() {
+        Lista_compra Lista = new Lista_compra();
+        try {
+            st = cn.createStatement();
+            rs = st.executeQuery("select * from productos");
+            while (rs.next()) {
+                Lista.AgregarCompra(Integer.parseInt(rs.getString(1)), rs.getString(2), Integer.parseInt(rs.getString(3)), Integer.parseInt(rs.getString(4)), rs.getString(5), rs.getString(6));
+            }
+        } catch (SQLException e) {
+            System.out.println("Hubo un error en mostrar compra.");
+        }
+        return Lista;
+    }
+
+    //Metodo para proceso de compra
+    public boolean Validar_producto(int id_producto) {
+        String sql = "select id_producto from productos";
+        try {
+            st = cn.createStatement();
+            rs = st.executeQuery(sql);
+            while (rs.next()) {
+                if (rs.getString(1).equals(String.valueOf(id_producto))) {
+                    return true;
+                }
+            }
+            return false;
+        } catch (SQLException e) {
+            System.out.println("Error de validacion en productos compras");
+            return false;
+        }
+    }
+
+    // Metodo para validar la cantidad del producto 
+    public boolean validar_cantidad(int id_producto, int cantidad) {
+        String sql = "select cantidad from productos where id_producto =" + id_producto;
+        try {
+            st = cn.createStatement();
+            rs = st.executeQuery(sql);
+            while (rs.next()) {
+                int aux = Integer.parseInt(rs.getString(1));
+                if (cantidad <= aux) {
+                    return true;
+                }
+            }
+            return false;
+        } catch (SQLException e) {
+            System.out.println("Hubo un problema en validar cantidad");
+            return false;
+        }
+    }
+
+    //Metodo para modificar la cantidad del producto en la BD
+    public void Modificar_cantidad(int id_producto, int cantidad) {
+        int auxiliar = 0;
+        String presql = "select cantidad from productos where id_producto=" + id_producto;
+        try {
+            st = cn.createStatement();
+            rs = st.executeQuery(presql);
+            while (rs.next()) {
+                auxiliar = Integer.parseInt(rs.getString(1)) - cantidad;
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Hubo un error cod 01 en modificar cantidad");
+        }
+        String sql = "update productos set cantidad=" + auxiliar + " where id_producto=" + id_producto;
+        try {
+            st = cn.createStatement();
+            rs = st.executeQuery(sql);
+            while (rs.next()) {
+                JOptionPane.showMessageDialog(null, "Compra exitosa", "COMPRA EXITOSA", JOptionPane.INFORMATION_MESSAGE);
+            }
+
+        } catch (SQLException e) {
+            System.out.println("hubo un error en modificar_cantidad");
+        }
+    }
+
+    // Metodo para mostrar la cantidad a pagar
+    public int Cantidad_pagar(int id_producto, int cantidad) {
+        String sql = " select precio from productos where id_producto=" + id_producto;
+        try {
+            st = cn.createStatement();
+            rs = st.executeQuery(sql);
+            while (rs.next()) {
+                int aux = 0;
+                aux = Integer.parseInt(rs.getString(1)) * cantidad;
+                return aux;
+            }
+            return 0;
+        } catch (SQLException e) {
+            return 0;
+        }
+    }
+    
+    
 }
