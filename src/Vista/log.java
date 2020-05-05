@@ -176,9 +176,7 @@ public class log extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "datos incorrectos");
         }
     }//GEN-LAST:event_botonRegistrarActionPerformed
-    public void getCredenciales(String user, String password, JavaConexion BD) {
-
-    }
+  
 
     /**
      * @param args the command line arguments
