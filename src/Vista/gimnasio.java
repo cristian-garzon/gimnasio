@@ -8,11 +8,11 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
 public class gimnasio extends javax.swing.JFrame {
-    
+
     String nombre;
     String cedula;
     JavaConexion BD;
-    
+
     public gimnasio() {
         initComponents();
         AsignarTransparencia();
@@ -23,7 +23,7 @@ public class gimnasio extends javax.swing.JFrame {
         this.repaint();
         AgregarPanel();
     }
-    
+
     public void AgregarPanel() {
         contenedor_horario panel = new contenedor_horario();
         panel.setSize(750, 550);
@@ -33,7 +33,7 @@ public class gimnasio extends javax.swing.JFrame {
         contenedor.revalidate();
         contenedor.repaint();
     }
-    
+
     public void AsignarTransparencia() {
         Agregar_usuario.setOpaque(false);
         Agregar_usuario.setBackground(new Color(0, 0, 0, 0));
@@ -48,7 +48,7 @@ public class gimnasio extends javax.swing.JFrame {
         salir.setOpaque(false);
         salir.setBackground(new Color(0, 0, 0, 0));
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -70,6 +70,8 @@ public class gimnasio extends javax.swing.JFrame {
         comprar = new javax.swing.JButton();
         atras = new javax.swing.JButton();
         salir = new javax.swing.JButton();
+        listar_inventario = new javax.swing.JButton();
+        jSeparator6 = new javax.swing.JSeparator();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
@@ -147,7 +149,7 @@ public class gimnasio extends javax.swing.JFrame {
         jPanel1.add(listar_productos1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 220, -1, -1));
 
         jSeparator4.setForeground(new java.awt.Color(255, 255, 255));
-        jPanel1.add(jSeparator4, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 263, 161, 10));
+        jPanel1.add(jSeparator4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 400, 161, 10));
 
         jSeparator5.setForeground(new java.awt.Color(255, 255, 255));
         jPanel1.add(jSeparator5, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 332, 161, 10));
@@ -169,7 +171,7 @@ public class gimnasio extends javax.swing.JFrame {
                 comprarActionPerformed(evt);
             }
         });
-        jPanel1.add(comprar, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 285, 164, -1));
+        jPanel1.add(comprar, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 350, 150, -1));
 
         atras.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
         atras.setForeground(new java.awt.Color(255, 255, 255));
@@ -190,6 +192,20 @@ public class gimnasio extends javax.swing.JFrame {
             }
         });
         jPanel1.add(salir, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 460, 170, -1));
+
+        listar_inventario.setBackground(new java.awt.Color(0, 0, 0));
+        listar_inventario.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
+        listar_inventario.setForeground(new java.awt.Color(255, 255, 255));
+        listar_inventario.setText("listar inventario");
+        listar_inventario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                listar_inventarioActionPerformed(evt);
+            }
+        });
+        jPanel1.add(listar_inventario, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 290, -1, -1));
+
+        jSeparator6.setForeground(new java.awt.Color(255, 255, 255));
+        jPanel1.add(jSeparator6, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 263, 161, 10));
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 200, 550));
 
@@ -255,7 +271,19 @@ public class gimnasio extends javax.swing.JFrame {
         // TODO add your handling code here:
         System.exit(0);
     }//GEN-LAST:event_salirActionPerformed
-    
+
+    private void listar_inventarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_listar_inventarioActionPerformed
+        inventario i1 = new inventario();
+        i1.getcredenciales(nombre, cedula, BD);
+        i1.mostrar_tabla("");
+        i1.setSize(750, 550);
+        i1.setLocation(0, 0);
+        contenedor.removeAll();
+        contenedor.add(i1, BorderLayout.CENTER);
+        contenedor.revalidate();
+        contenedor.repaint();
+    }//GEN-LAST:event_listar_inventarioActionPerformed
+
     public void getcredenciales(String nombre, String cedula, JavaConexion BD) {
         this.nombre = nombre;
         this.cedula = cedula;
@@ -314,6 +342,8 @@ public class gimnasio extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator3;
     private javax.swing.JSeparator jSeparator4;
     private javax.swing.JSeparator jSeparator5;
+    private javax.swing.JSeparator jSeparator6;
+    private javax.swing.JButton listar_inventario;
     private javax.swing.JButton listar_productos1;
     private javax.swing.JButton listar_usuarios1;
     private javax.swing.JLabel presentacion;

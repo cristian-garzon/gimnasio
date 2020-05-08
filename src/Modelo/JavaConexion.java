@@ -2,6 +2,7 @@ package Modelo;
 
 import Controlador.Lista_compra;
 import Controlador.Nodo_usuarios;
+import Controlador.lista_inventario;
 import Controlador.lista_producto;
 import Controlador.lista_usuarios;
 import java.sql.Connection;
@@ -74,7 +75,6 @@ public class JavaConexion {
                 break;
         }
     }
-
     public String estatus(String nombre, String cedula) {
         try {
             st = cn.createStatement();
@@ -158,7 +158,15 @@ public class JavaConexion {
         }
 
     }
-
+    //metodo para actualizar el inventario 
+    public void updatei(String nombre,String tipo_objeto,String caracteristicas,String estado,int unidades,int id){
+        try {
+            st= cn.createStatement();
+            st.execute("update inventario set nombre= '"+nombre+"', tipo_objeto='"+tipo_objeto+"', caracteristicas='"+caracteristicas+"', estado='"+estado+"',unidades="+unidades+" where id="+id);
+        } catch (Exception e) {
+            System.out.println("error al actualizar el inventario "+e);
+        }
+    }
     public void update(long cedula, String nombre, long telefono, String correo, String direccion, String estatus, String tipo_usuario) {
         try {
             st = cn.createStatement();
@@ -167,8 +175,21 @@ public class JavaConexion {
             System.out.println("Error " + e.toString());
         }
     }
-
-    //metodo para listar los usuarios
+    //metodo para listar el inventario
+    public lista_inventario listari(String filtro){
+        lista_inventario lista= new lista_inventario();
+        try {
+            st = cn.createStatement();
+            rs = st.executeQuery("SELECT * FROM INVENTARIO WHERE nombre like '"+filtro+"%'");
+            while(rs.next()){
+                lista.agregar(Integer.parseInt(rs.getString(1)), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), Integer.parseInt(rs.getString(7)));          
+            }
+        } catch (SQLException e) {
+            System.out.println(" error al listar el inventario "+e);
+        }
+        return lista;
+    }
+       //metodo para listar los usuarios
     public lista_usuarios listar(String filtro) {
         lista_usuarios lista = new lista_usuarios();
         try {
