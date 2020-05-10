@@ -6,6 +6,8 @@ import java.awt.Color;
 import java.awt.Image;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
+import javax.swing.WindowConstants;
 
 public class gimnasio extends javax.swing.JFrame {
 
@@ -47,6 +49,8 @@ public class gimnasio extends javax.swing.JFrame {
         salir.setBackground(new Color(0, 0, 0, 0));
         listar_inventario.setOpaque(false);
         listar_inventario.setBackground(new Color(0, 0, 0, 0));
+        close_sesion.setOpaque(false);
+        close_sesion.setBackground(new Color(0, 0, 0, 0));
     }
 
     @SuppressWarnings("unchecked")
@@ -71,6 +75,7 @@ public class gimnasio extends javax.swing.JFrame {
         salir = new javax.swing.JButton();
         listar_inventario = new javax.swing.JButton();
         jSeparator6 = new javax.swing.JSeparator();
+        close_sesion = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
@@ -110,37 +115,37 @@ public class gimnasio extends javax.swing.JFrame {
         jPanel1.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(25, 40, 138, 20));
 
         jSeparator2.setForeground(new java.awt.Color(255, 255, 255));
-        jPanel1.add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 119, 161, 10));
+        jPanel1.add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 120, 140, 10));
 
         listar_usuarios1.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
         listar_usuarios1.setForeground(new java.awt.Color(255, 255, 255));
-        listar_usuarios1.setText("Listar Usuarios");
+        listar_usuarios1.setText("Usuarios");
         listar_usuarios1.setToolTipText("");
         listar_usuarios1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 listar_usuarios1ActionPerformed(evt);
             }
         });
-        jPanel1.add(listar_usuarios1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 150, -1, -1));
+        jPanel1.add(listar_usuarios1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 80, -1, -1));
 
         jSeparator3.setForeground(new java.awt.Color(255, 255, 255));
-        jPanel1.add(jSeparator3, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 188, 161, 10));
+        jPanel1.add(jSeparator3, new org.netbeans.lib.awtextra.AbsoluteConstraints(17, 188, 150, 10));
 
         listar_productos1.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
         listar_productos1.setForeground(new java.awt.Color(255, 255, 255));
-        listar_productos1.setText("Listar Productos");
+        listar_productos1.setText("Productos");
         listar_productos1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 listar_productos1ActionPerformed(evt);
             }
         });
-        jPanel1.add(listar_productos1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 220, -1, -1));
+        jPanel1.add(listar_productos1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 150, -1, -1));
 
         jSeparator4.setForeground(new java.awt.Color(255, 255, 255));
-        jPanel1.add(jSeparator4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 400, 161, 10));
+        jPanel1.add(jSeparator4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 450, 161, 10));
 
         jSeparator5.setForeground(new java.awt.Color(255, 255, 255));
-        jPanel1.add(jSeparator5, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 332, 161, 10));
+        jPanel1.add(jSeparator5, new org.netbeans.lib.awtextra.AbsoluteConstraints(17, 332, 150, 10));
 
         jLabel4.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
@@ -159,7 +164,7 @@ public class gimnasio extends javax.swing.JFrame {
                 comprarActionPerformed(evt);
             }
         });
-        jPanel1.add(comprar, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 350, 150, -1));
+        jPanel1.add(comprar, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 290, 100, -1));
 
         atras.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
         atras.setForeground(new java.awt.Color(255, 255, 255));
@@ -169,7 +174,7 @@ public class gimnasio extends javax.swing.JFrame {
                 atrasActionPerformed(evt);
             }
         });
-        jPanel1.add(atras, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 420, 170, -1));
+        jPanel1.add(atras, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 460, 80, -1));
 
         salir.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
         salir.setForeground(new java.awt.Color(255, 255, 255));
@@ -179,20 +184,30 @@ public class gimnasio extends javax.swing.JFrame {
                 salirActionPerformed(evt);
             }
         });
-        jPanel1.add(salir, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 460, 170, -1));
+        jPanel1.add(salir, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 460, 80, -1));
 
         listar_inventario.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
         listar_inventario.setForeground(new java.awt.Color(255, 255, 255));
-        listar_inventario.setText("listar inventario");
+        listar_inventario.setText("Inventario");
         listar_inventario.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 listar_inventarioActionPerformed(evt);
             }
         });
-        jPanel1.add(listar_inventario, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 290, -1, -1));
+        jPanel1.add(listar_inventario, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 220, -1, -1));
 
         jSeparator6.setForeground(new java.awt.Color(255, 255, 255));
-        jPanel1.add(jSeparator6, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 263, 161, 10));
+        jPanel1.add(jSeparator6, new org.netbeans.lib.awtextra.AbsoluteConstraints(17, 263, 150, 10));
+
+        close_sesion.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
+        close_sesion.setForeground(new java.awt.Color(255, 255, 255));
+        close_sesion.setText("Cerrar Sesión");
+        close_sesion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                close_sesionActionPerformed(evt);
+            }
+        });
+        jPanel1.add(close_sesion, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 412, 130, 30));
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 200, 550));
 
@@ -233,7 +248,7 @@ public class gimnasio extends javax.swing.JFrame {
         // TODO add your handling code here:
         panel_comprar panel = new panel_comprar();
         panel.getcredenciales(nombre, cedula, BD);
-        panel.Mostrar_productos();
+        panel.Mostrar_productos("");
         panel.setSize(750, 550);
         panel.setLocation(0, 0);
         contenedor.removeAll();
@@ -249,7 +264,13 @@ public class gimnasio extends javax.swing.JFrame {
 
     private void salirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_salirActionPerformed
         // TODO add your handling code here:
-        System.exit(0);
+        int n = JOptionPane.showConfirmDialog(null, "¿Esta seguro de salir del programa?", "MENSAJE DE CONFIRMACION", JOptionPane.WARNING_MESSAGE);
+        if (n == JOptionPane.YES_OPTION) {
+            System.exit(0);
+        } else {
+            
+        }
+        
     }//GEN-LAST:event_salirActionPerformed
 
     private void listar_inventarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_listar_inventarioActionPerformed
@@ -263,6 +284,21 @@ public class gimnasio extends javax.swing.JFrame {
         contenedor.revalidate();
         contenedor.repaint();
     }//GEN-LAST:event_listar_inventarioActionPerformed
+
+    private void close_sesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_close_sesionActionPerformed
+        // TODO add your handling code here:
+        int n = JOptionPane.showConfirmDialog(null, "¿Esta seguro de Cerrar Sesion?", "MENSAJE DE CONFIRMACION", JOptionPane.WARNING_MESSAGE);
+        if (n == JOptionPane.YES_OPTION) {
+            setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+            log login = new log();
+            login.getBD(BD);
+            login.setVisible(true);
+            dispose();
+        } else {
+            
+        }
+
+    }//GEN-LAST:event_close_sesionActionPerformed
 
     public void getcredenciales(String nombre, String cedula, JavaConexion BD) {
         this.nombre = nombre;
@@ -310,6 +346,7 @@ public class gimnasio extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton atras;
+    private javax.swing.JButton close_sesion;
     private javax.swing.JButton comprar;
     private javax.swing.JPanel contenedor;
     private javax.swing.JLabel jLabel1;

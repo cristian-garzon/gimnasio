@@ -23,7 +23,7 @@ public class panel_comprar extends javax.swing.JPanel {
 
     @Override
     public void paint(Graphics g) {
-        ImageIcon icon = new ImageIcon(getClass().getResource("/imagenes/fondoscompra.jpg"));;
+        ImageIcon icon = new ImageIcon(getClass().getResource("/imagenes/mejorcalidadcomprar.jpg"));;
         g.drawImage(icon.getImage(), 0, 0, this.getWidth(), this.getHeight(), this);
         this.setOpaque(false);
         super.paint(g);
@@ -40,10 +40,10 @@ public class panel_comprar extends javax.swing.JPanel {
     }
 
     //Metodo para dar los titulos a la tabla
-    public void Mostrar_productos() {
+    public void Mostrar_productos(String filtro) {
         Lista_compra lista = new Lista_compra();
         String cabecera[] = {"ID", "NOMBRE", "CANTIDAD EXISTENTE", "PRECIO", "PESO", "CARACTERISTICAS"};
-        String Datos[][] = lista.Listado_compra(BD);
+        String Datos[][] = lista.Listado_compra(BD, filtro);
         Tabla = new JTable(Datos, cabecera);
         Scroll.setViewportView(Tabla);
 
@@ -58,15 +58,20 @@ public class panel_comprar extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jTextField1 = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         Scroll = new javax.swing.JScrollPane();
         Tabla = new javax.swing.JTable();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        cantidad = new javax.swing.JTextField();
+        filtro = new javax.swing.JTextField();
         comprar = new javax.swing.JButton();
         presentacion = new javax.swing.JLabel();
         ID = new javax.swing.JTextField();
+        jLabel4 = new javax.swing.JLabel();
+        cantidad1 = new javax.swing.JTextField();
+
+        jTextField1.setText("jTextField1");
 
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -90,21 +95,26 @@ public class panel_comprar extends javax.swing.JPanel {
         ));
         Scroll.setViewportView(Tabla);
 
-        add(Scroll, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 360, 710, 130));
+        add(Scroll, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 360, 710, 190));
 
         jLabel2.setFont(new java.awt.Font("Century Gothic", 3, 18)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel2.setText("Digite el ID del producto que desea comprar");
-        add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 300, 400, 30));
+        jLabel2.setText("Buscar por Nombre");
+        add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 230, 180, 30));
 
         jLabel3.setFont(new java.awt.Font("Century Gothic", 3, 18)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("Digite la cantidad a comprar");
-        add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 250, 260, 30));
+        add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 270, 260, 30));
 
-        cantidad.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
-        cantidad.setForeground(new java.awt.Color(0, 0, 0));
-        add(cantidad, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 250, 50, 30));
+        filtro.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
+        filtro.setForeground(new java.awt.Color(0, 0, 0));
+        filtro.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                filtroKeyReleased(evt);
+            }
+        });
+        add(filtro, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 230, 130, 30));
 
         comprar.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
         comprar.setText("COMPRAR");
@@ -113,7 +123,7 @@ public class panel_comprar extends javax.swing.JPanel {
                 comprarActionPerformed(evt);
             }
         });
-        add(comprar, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 240, 150, 50));
+        add(comprar, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 280, 150, 50));
 
         presentacion.setFont(new java.awt.Font("Century Gothic", 0, 24)); // NOI18N
         presentacion.setForeground(new java.awt.Color(255, 255, 255));
@@ -122,20 +132,29 @@ public class panel_comprar extends javax.swing.JPanel {
 
         ID.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
         ID.setForeground(new java.awt.Color(51, 51, 51));
-        add(ID, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 300, 100, 30));
+        add(ID, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 310, 100, 30));
+
+        jLabel4.setFont(new java.awt.Font("Century Gothic", 3, 18)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel4.setText("Digite el ID del producto que desea comprar");
+        add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 310, 400, 30));
+
+        cantidad1.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
+        cantidad1.setForeground(new java.awt.Color(0, 0, 0));
+        add(cantidad1, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 270, 100, 30));
     }// </editor-fold>//GEN-END:initComponents
 
     private void comprarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comprarActionPerformed
         // TODO add your handling code here:
         int id_producto = Integer.parseInt(ID.getText());
         if (BD.Validar_producto(id_producto)) {
-            int canti = Integer.parseInt(cantidad.getText());
+            int canti = Integer.parseInt(cantidad1.getText());
             if (BD.validar_cantidad(id_producto, canti)) {
                 BD.Modificar_cantidad(id_producto, canti);
                 JOptionPane.showMessageDialog(null, "Su compra se a realizado exitosamente. \n"
                         + "Total a pagar: " + BD.Cantidad_pagar(id_producto, canti),
                         "INFORMACION DE COMPRA ", JOptionPane.INFORMATION_MESSAGE);
-                 Mostrar_productos();
+                 Mostrar_productos("");
             } else {
                 JOptionPane.showMessageDialog(null, "La cantidad sobrepasa la existente, digite una cantidad valida con respecto el producto  porfavor.",
                         "ADVERTENCIA", JOptionPane.WARNING_MESSAGE);
@@ -147,16 +166,24 @@ public class panel_comprar extends javax.swing.JPanel {
 
     }//GEN-LAST:event_comprarActionPerformed
 
+    private void filtroKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_filtroKeyReleased
+        // TODO add your handling code here:
+        Mostrar_productos(filtro.getText().trim());
+    }//GEN-LAST:event_filtroKeyReleased
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField ID;
     private javax.swing.JScrollPane Scroll;
     private javax.swing.JTable Tabla;
-    private javax.swing.JTextField cantidad;
+    private javax.swing.JTextField cantidad1;
     private javax.swing.JButton comprar;
+    private javax.swing.JTextField filtro;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JTextField jTextField1;
     private javax.swing.JLabel presentacion;
     // End of variables declaration//GEN-END:variables
 }

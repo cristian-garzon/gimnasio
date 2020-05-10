@@ -27,7 +27,7 @@ public class productos extends javax.swing.JPanel {
 
     @Override
     public void paint(Graphics g) {
-        ImageIcon icon = new ImageIcon(getClass().getResource("/imagenes/fondo producto.jpg"));;
+        ImageIcon icon = new ImageIcon(getClass().getResource("/imagenes/mancuernas1.png"));;
         g.drawImage(icon.getImage(), 0, 0, this.getWidth(), this.getHeight(), this);
         this.setOpaque(false);
         super.paint(g);

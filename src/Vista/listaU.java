@@ -19,7 +19,7 @@ public class listaU extends javax.swing.JPanel {
 
     @Override
     public void paint(Graphics g) {
-        ImageIcon icon = new ImageIcon(getClass().getResource("/imagenes/fondoGimnasio.jpg"));;
+        ImageIcon icon = new ImageIcon(getClass().getResource("/imagenes/listausuarios.jpg"));;
         g.drawImage(icon.getImage(), 0, 0, this.getWidth(), this.getHeight(), this);
         this.setOpaque(false);
         super.paint(g);
@@ -207,6 +207,11 @@ public class listaU extends javax.swing.JPanel {
         });
         add(eliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 500, -1, -1));
 
+        filtrado.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                filtradoActionPerformed(evt);
+            }
+        });
         filtrado.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 filtradoKeyReleased(evt);
@@ -325,6 +330,10 @@ public class listaU extends javax.swing.JPanel {
         agregar.getBD(Nombre,cedula,BD,this);
         agregar.setVisible(true);
     }//GEN-LAST:event_agregarActionPerformed
+
+    private void filtradoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_filtradoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_filtradoActionPerformed
     public int numeros(JTextField x) {
         try {
             Long.parseLong(x.getText().trim());
