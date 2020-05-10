@@ -27,7 +27,7 @@ public class JavaConexion {
             case "postgres":
                 url = "jdbc:postgresql://localhost:5432/GYMDB";
                 user = "postgres";
-                password = "1234";
+                password = "daniel22p3";
                 try {
                     cn = DriverManager.getConnection(url, user, password);
                     JOptionPane.showMessageDialog(null, "Base de Datos conectada");
@@ -43,7 +43,7 @@ public class JavaConexion {
                     Class.forName("oracle.jdbc.driver.OracleDriver");
                     cn = DriverManager.getConnection(url, user, password);
                     if (cn != null) {
-                        JOptionPane.showMessageDialog(null, "Base de Datos conectada" + cn.toString());
+                        JOptionPane.showMessageDialog(null, "Base de Datos conectada codigo de conexión: \n" + cn.toString());
                     }
                 } catch (ClassNotFoundException | SQLException e) {
                     JOptionPane.showMessageDialog(null, e.toString());
@@ -211,16 +211,16 @@ public class JavaConexion {
     }
 
     //Metodo para poder listar  usado en ventana_comprar
-    public Lista_compra MostrarCompra() {
+    public Lista_compra MostrarCompra(String filtro) {
         Lista_compra Lista = new Lista_compra();
         try {
             st = cn.createStatement();
-            rs = st.executeQuery("select * from productos");
+            rs = st.executeQuery("select * from productos where tipo like  '"+filtro+"%'");
             while (rs.next()) {
                 Lista.AgregarCompra(Integer.parseInt(rs.getString(1)), rs.getString(2), Integer.parseInt(rs.getString(3)), Integer.parseInt(rs.getString(4)), rs.getString(5), rs.getString(6));
             }
         } catch (SQLException e) {
-            System.out.println("Hubo un error en mostrar compra.");
+            System.out.println("Hubo un error en mostrar compra."+e.getMessage());
         }
         return Lista;
     }
@@ -317,7 +317,7 @@ public class JavaConexion {
             rs = st.executeQuery(SQL_INSERT);
         } catch (SQLException ex) {
             ex.printStackTrace(System.out);
-            System.out.println("error al insertar "+ex);
+            System.out.println("error al insertar "+ex.getMessage());
         }
         return rows;
     }
@@ -327,7 +327,7 @@ public class JavaConexion {
             st = cn.createStatement();
             rs=st.executeQuery("INSERT INTO USUARIOS VALUES ("+cedula+",'"+nombre+"',"+telefono+",'"+correo+"','"+direccion+"','"+estatus+"','"+tipo_usuario+"') ");    
         } catch (Exception e) {
-            System.out.println("error al agregar "+e);
+            System.out.println("error al agregar "+e.getMessage());
         }
     }
 
