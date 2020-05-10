@@ -31,8 +31,8 @@ public class listaU extends javax.swing.JPanel {
         this.cedula = cedula;
         presentacion.setText("BIENVENIDO " + Nombre + " [" + BD.estatus(Nombre, cedula) + "]");
         if (BD.estatus(Nombre, cedula).equals("empleado")) {
-            eliminar.setEnabled(false);
-            modificar.setEnabled(false);
+            consultar.setEnabled(false);
+            agregar.setEnabled(false);
         }
     }
 
@@ -61,7 +61,8 @@ public class listaU extends javax.swing.JPanel {
         direccion.setEnabled(false);
         estatus.setEnabled(false);
         tipo_usuario.setEnabled(false);
-        update.setEnabled(false);
+        eliminar.setEnabled(false);
+        actualizar.setEnabled(false);
     }
 
     @SuppressWarnings("unchecked")
@@ -70,8 +71,8 @@ public class listaU extends javax.swing.JPanel {
 
         contenedor = new javax.swing.JScrollPane();
         tabla = new javax.swing.JTable();
-        eliminar = new javax.swing.JButton();
-        modificar = new javax.swing.JButton();
+        actualizar = new javax.swing.JButton();
+        consultar = new javax.swing.JButton();
         nombre = new javax.swing.JTextField();
         correo = new javax.swing.JTextField();
         telefono = new javax.swing.JTextField();
@@ -85,9 +86,10 @@ public class listaU extends javax.swing.JPanel {
         tipo_usuario = new javax.swing.JComboBox<>();
         estatus = new javax.swing.JComboBox<>();
         presentacion = new javax.swing.JLabel();
-        update = new javax.swing.JButton();
+        eliminar = new javax.swing.JButton();
         filtrado = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
+        agregar = new javax.swing.JButton();
 
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -120,21 +122,21 @@ public class listaU extends javax.swing.JPanel {
 
         add(contenedor, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 120, 730, 120));
 
-        eliminar.setText("eliminar");
-        eliminar.addActionListener(new java.awt.event.ActionListener() {
+        actualizar.setText("actualizar");
+        actualizar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                eliminarActionPerformed(evt);
+                actualizarActionPerformed(evt);
             }
         });
-        add(eliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 250, -1, 30));
+        add(actualizar, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 500, -1, -1));
 
-        modificar.setText("modificar");
-        modificar.addActionListener(new java.awt.event.ActionListener() {
+        consultar.setText("consultar");
+        consultar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                modificarActionPerformed(evt);
+                consultarActionPerformed(evt);
             }
         });
-        add(modificar, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 250, -1, 30));
+        add(consultar, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 250, -1, 30));
         add(nombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 310, 220, -1));
         add(correo, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 380, 220, -1));
         add(telefono, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 450, 220, -1));
@@ -144,7 +146,7 @@ public class listaU extends javax.swing.JPanel {
                 direccionActionPerformed(evt);
             }
         });
-        add(direccion, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 310, 170, -1));
+        add(direccion, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 310, 220, -1));
 
         jLabel1.setBackground(new java.awt.Color(255, 255, 255));
         jLabel1.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
@@ -197,13 +199,13 @@ public class listaU extends javax.swing.JPanel {
         presentacion.setForeground(new java.awt.Color(255, 255, 255));
         add(presentacion, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 20, 370, 30));
 
-        update.setText("modificar");
-        update.addActionListener(new java.awt.event.ActionListener() {
+        eliminar.setText("eliminar");
+        eliminar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                updateActionPerformed(evt);
+                eliminarActionPerformed(evt);
             }
         });
-        add(update, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 500, -1, -1));
+        add(eliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 500, -1, -1));
 
         filtrado.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
@@ -217,19 +219,40 @@ public class listaU extends javax.swing.JPanel {
         jLabel7.setForeground(new java.awt.Color(255, 255, 255));
         jLabel7.setText("filtrar por nombre");
         add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 80, -1, -1));
+
+        agregar.setText("agregar");
+        agregar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                agregarActionPerformed(evt);
+            }
+        });
+        add(agregar, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 250, -1, -1));
     }// </editor-fold>//GEN-END:initComponents
 
-    private void eliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eliminarActionPerformed
+    private void actualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_actualizarActionPerformed
         int fila = tabla.getSelectedRow();
         if (fila >= 0) {
             BD.eliminar(tabla.getValueAt(fila, 0).toString());
             mostrar_tabla_admin("");
+            mostrar_tabla_admin("");
+            nombre.setEnabled(false);
+            correo.setEnabled(false);
+            telefono.setEnabled(false);
+            direccion.setEnabled(false);
+            estatus.setEnabled(false);
+            tipo_usuario.setEnabled(false);
+            eliminar.setEnabled(false);
+            actualizar.setEnabled(false);
+            nombre.setText("");
+            correo.setText("");
+            telefono.setText("");
+            direccion.setText("");
         } else {
             JOptionPane.showMessageDialog(null, "tiene que escojer una fila para eliminarla");
         }
-    }//GEN-LAST:event_eliminarActionPerformed
+    }//GEN-LAST:event_actualizarActionPerformed
 
-    private void modificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modificarActionPerformed
+    private void consultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_consultarActionPerformed
         if (tabla.getSelectedRow() >= 0) {
             nombre.setEnabled(true);
             correo.setEnabled(true);
@@ -237,17 +260,18 @@ public class listaU extends javax.swing.JPanel {
             direccion.setEnabled(true);
             estatus.setEnabled(true);
             tipo_usuario.setEnabled(true);
-            update.setEnabled(true);
+            eliminar.setEnabled(true);
             nombre.setText(tabla.getValueAt(tabla.getSelectedRow(), 1).toString());
             correo.setText(tabla.getValueAt(tabla.getSelectedRow(), 3).toString());
             telefono.setText(tabla.getValueAt(tabla.getSelectedRow(), 2).toString());
             direccion.setText(tabla.getValueAt(tabla.getSelectedRow(), 4).toString());
             cedulaM = Long.parseLong(tabla.getValueAt(tabla.getSelectedRow(), 0).toString());
+            actualizar.setEnabled(true);
         } else {
             JOptionPane.showMessageDialog(null, "tiene que escojer una fila para modificarla");
 
         }
-    }//GEN-LAST:event_modificarActionPerformed
+    }//GEN-LAST:event_consultarActionPerformed
 
     private void direccionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_direccionActionPerformed
         // TODO add your handling code here:
@@ -256,7 +280,7 @@ public class listaU extends javax.swing.JPanel {
     private void tipo_usuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tipo_usuarioActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_tipo_usuarioActionPerformed
-    private void updateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateActionPerformed
+    private void eliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eliminarActionPerformed
         if (vacio(nombre) + vacio(telefono) + vacio(direccion) + vacio(correo) + numeros(telefono) != 5) {
             JOptionPane.showMessageDialog(null, "no se ha podido modificar los datos");
         } else {
@@ -279,13 +303,14 @@ public class listaU extends javax.swing.JPanel {
             direccion.setEnabled(false);
             estatus.setEnabled(false);
             tipo_usuario.setEnabled(false);
-            update.setEnabled(false);
+            eliminar.setEnabled(false);
+            actualizar.setEnabled(false);
             nombre.setText("");
             correo.setText("");
             telefono.setText("");
             direccion.setText("");
         }
-    }//GEN-LAST:event_updateActionPerformed
+    }//GEN-LAST:event_eliminarActionPerformed
 
     private void filtradoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_filtradoKeyReleased
         if (BD.estatus(Nombre, cedula).equals("administrador")) {
@@ -294,6 +319,12 @@ public class listaU extends javax.swing.JPanel {
             mostrar_tabla_empleado(filtrado.getText().trim());
         }
     }//GEN-LAST:event_filtradoKeyReleased
+
+    private void agregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_agregarActionPerformed
+        AgregarUsuario agregar = new AgregarUsuario();
+        agregar.getBD(Nombre,cedula,BD,this);
+        agregar.setVisible(true);
+    }//GEN-LAST:event_agregarActionPerformed
     public int numeros(JTextField x) {
         try {
             Long.parseLong(x.getText().trim());
@@ -321,6 +352,9 @@ public class listaU extends javax.swing.JPanel {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton actualizar;
+    private javax.swing.JButton agregar;
+    private javax.swing.JButton consultar;
     private javax.swing.JScrollPane contenedor;
     private javax.swing.JTextField correo;
     private javax.swing.JTextField direccion;
@@ -334,12 +368,10 @@ public class listaU extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JButton modificar;
     private javax.swing.JTextField nombre;
     private javax.swing.JLabel presentacion;
     private javax.swing.JTable tabla;
     private javax.swing.JTextField telefono;
     private javax.swing.JComboBox<String> tipo_usuario;
-    private javax.swing.JButton update;
     // End of variables declaration//GEN-END:variables
 }

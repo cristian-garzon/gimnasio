@@ -35,8 +35,6 @@ public class gimnasio extends javax.swing.JFrame {
     }
 
     public void AsignarTransparencia() {
-        Agregar_usuario.setOpaque(false);
-        Agregar_usuario.setBackground(new Color(0, 0, 0, 0));
         listar_usuarios1.setOpaque(false);
         listar_usuarios1.setBackground(new Color(0, 0, 0, 0));
         listar_productos1.setOpaque(false);
@@ -47,6 +45,8 @@ public class gimnasio extends javax.swing.JFrame {
         atras.setBackground(new Color(0, 0, 0, 0));
         salir.setOpaque(false);
         salir.setBackground(new Color(0, 0, 0, 0));
+        listar_inventario.setOpaque(false);
+        listar_inventario.setBackground(new Color(0, 0, 0, 0));
     }
 
     @SuppressWarnings("unchecked")
@@ -58,7 +58,6 @@ public class gimnasio extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
-        Agregar_usuario = new javax.swing.JButton();
         jSeparator2 = new javax.swing.JSeparator();
         listar_usuarios1 = new javax.swing.JButton();
         jSeparator3 = new javax.swing.JSeparator();
@@ -109,17 +108,6 @@ public class gimnasio extends javax.swing.JFrame {
 
         jSeparator1.setForeground(new java.awt.Color(255, 255, 255));
         jPanel1.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(25, 40, 138, 20));
-
-        Agregar_usuario.setBackground(new java.awt.Color(0, 0, 0));
-        Agregar_usuario.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
-        Agregar_usuario.setForeground(new java.awt.Color(255, 255, 255));
-        Agregar_usuario.setText("Agregar Usuario");
-        Agregar_usuario.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                Agregar_usuarioActionPerformed(evt);
-            }
-        });
-        jPanel1.add(Agregar_usuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 80, -1, -1));
 
         jSeparator2.setForeground(new java.awt.Color(255, 255, 255));
         jPanel1.add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 119, 161, 10));
@@ -193,7 +181,6 @@ public class gimnasio extends javax.swing.JFrame {
         });
         jPanel1.add(salir, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 460, 170, -1));
 
-        listar_inventario.setBackground(new java.awt.Color(0, 0, 0));
         listar_inventario.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
         listar_inventario.setForeground(new java.awt.Color(255, 255, 255));
         listar_inventario.setText("listar inventario");
@@ -211,13 +198,6 @@ public class gimnasio extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void Agregar_usuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Agregar_usuarioActionPerformed
-        //Agregando la Funcionalidad del Boton
-        AgregarUsuario agregar = new AgregarUsuario();
-        agregar.setVisible(true);
-        this.setVisible(false);
-    }//GEN-LAST:event_Agregar_usuarioActionPerformed
 
     private void listar_usuarios1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_listar_usuarios1ActionPerformed
         // TODO add your handling code here:
@@ -329,7 +309,6 @@ public class gimnasio extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton Agregar_usuario;
     private javax.swing.JButton atras;
     private javax.swing.JButton comprar;
     private javax.swing.JPanel contenedor;

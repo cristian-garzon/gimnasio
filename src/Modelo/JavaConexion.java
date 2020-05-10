@@ -1,16 +1,7 @@
 package Modelo;
 
-import Controlador.Lista_compra;
-import Controlador.Nodo_usuarios;
-import Controlador.lista_inventario;
-import Controlador.lista_producto;
-import Controlador.lista_usuarios;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import Controlador.*;
+import java.sql.*;
 import javax.swing.JOptionPane;
 
 public class JavaConexion {
@@ -318,21 +309,26 @@ public class JavaConexion {
     //COMMINT 
 //Agregando Metodo INSERTAR DATOS para MySql
     public int insert(Nodo_usuarios usuario) {
-        /*
-        Si no pusieron (usuario como el nombre de su tabla),pueden cambiarlo para que les funcione
-         */
-        String SQL_INSERT = "INSERT INTO usuario(cedula,nombre,telefono,correo,direccion,estatus,tipo_usuario) VALUES(" + usuario.getCedula() + "," + usuario.getNombre() + ", " + usuario.getTelefono() + ", " + usuario.getCorreo() + "," + usuario.getDireccion() + ", " + usuario.getEstatus() + ", " + usuario.getTipo_usuario() + ")";
+        String SQL_INSERT = "INSERT INTO usuarios(cedula,nombre,telefono,correo,direccion,estatus,tipo_usuario) VALUES(" + usuario.getCedula() + "," + usuario.getNombre() + ", " + usuario.getTelefono() + ", " + usuario.getCorreo() + "," + usuario.getDireccion() + ", " + usuario.getEstatus() + ", " + usuario.getTipo_usuario() + ")";
         PreparedStatement stmt = null;
         int rows = 0;
         try {
             st = cn.createStatement();
-            st.executeQuery(SQL_INSERT);
-            rows = stmt.executeUpdate();
-            //System.out.println("Registros afectados: " + rows);
+            rs = st.executeQuery(SQL_INSERT);
         } catch (SQLException ex) {
             ex.printStackTrace(System.out);
+            System.out.println("error al insertar "+ex);
         }
         return rows;
+    }
+    //agregar el usuario
+    public void insertU(long cedula,String nombre,long telefono,String correo,String direccion, String estatus,String tipo_usuario ){
+        try {
+            st = cn.createStatement();
+            rs=st.executeQuery("INSERT INTO USUARIOS VALUES ("+cedula+",'"+nombre+"',"+telefono+",'"+correo+"','"+direccion+"','"+estatus+"','"+tipo_usuario+"') ");    
+        } catch (Exception e) {
+            System.out.println("error al agregar "+e);
+        }
     }
 
 }

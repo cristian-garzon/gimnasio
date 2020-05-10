@@ -31,7 +31,7 @@ public class inventario extends javax.swing.JPanel {
         estado.setEnabled(false);
         caracteristicas.setEnabled(false);
         unidades.setEnabled(false);
-        update.setEnabled(false);
+        eliminar.setEnabled(false);
     }
 
     public void mostrar_tabla(String filtro) {
@@ -72,8 +72,10 @@ public class inventario extends javax.swing.JPanel {
         jScrollPane1 = new javax.swing.JScrollPane();
         caracteristicas = new javax.swing.JTextArea();
         estado = new javax.swing.JComboBox<>();
-        update = new javax.swing.JButton();
-        actualizar = new javax.swing.JButton();
+        eliminar = new javax.swing.JButton();
+        consultar = new javax.swing.JButton();
+        update1 = new javax.swing.JButton();
+        agregar = new javax.swing.JButton();
 
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -147,49 +149,73 @@ public class inventario extends javax.swing.JPanel {
         estado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "activo", "inactivo", "en reparacion" }));
         add(estado, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 470, 150, -1));
 
-        update.setText("actualizar");
-        update.addActionListener(new java.awt.event.ActionListener() {
+        eliminar.setText("eliminar");
+        eliminar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                updateActionPerformed(evt);
+                eliminarActionPerformed(evt);
             }
         });
-        add(update, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 510, -1, -1));
+        add(eliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 510, -1, -1));
 
-        actualizar.setText("actualizar");
-        actualizar.addActionListener(new java.awt.event.ActionListener() {
+        consultar.setText("consultar");
+        consultar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                actualizarActionPerformed(evt);
+                consultarActionPerformed(evt);
             }
         });
-        add(actualizar, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 260, -1, -1));
+        add(consultar, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 260, -1, -1));
+
+        update1.setText("actualizar");
+        update1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                update1ActionPerformed(evt);
+            }
+        });
+        add(update1, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 510, -1, -1));
+
+        agregar.setText("agregar");
+        agregar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                agregarActionPerformed(evt);
+            }
+        });
+        add(agregar, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 260, -1, -1));
     }// </editor-fold>//GEN-END:initComponents
 
     private void filtradoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_filtradoKeyReleased
         mostrar_tabla(filtrado.getText().trim());
     }//GEN-LAST:event_filtradoKeyReleased
 
-    private void actualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_actualizarActionPerformed
+    private void consultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_consultarActionPerformed
         if (tabla.getSelectedRow() >= 0) {
             nombre.setEnabled(true);
             tipo_objeto.setEnabled(true);
             estado.setEnabled(true);
             caracteristicas.setEnabled(true);
             unidades.setEnabled(true);
-            update.setEnabled(true);
+            eliminar.setEnabled(true);
             nombre.setText(tabla.getValueAt(tabla.getSelectedRow(), 2).toString());
             tipo_objeto.setText(tabla.getValueAt(tabla.getSelectedRow(), 3).toString());
             caracteristicas.setText(tabla.getValueAt(tabla.getSelectedRow(), 4).toString());
             unidades.setText(tabla.getValueAt(tabla.getSelectedRow(), 6).toString());
             id=Integer.parseInt(tabla.getValueAt(tabla.getSelectedRow(), 0).toString());
         }
-    }//GEN-LAST:event_actualizarActionPerformed
+    }//GEN-LAST:event_consultarActionPerformed
 
-    private void updateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateActionPerformed
+    private void eliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eliminarActionPerformed
         if(vacio(nombre)+vacio(tipo_objeto)+vacio(caracteristicas)+vacio(unidades)+numeros(unidades)==5){
             BD.updatei(nombre.getText().trim(), tipo_objeto.getText().trim(), caracteristicas.getText().trim(),opcion(estado) , Integer.parseInt(unidades.getText().trim()),id);
             mostrar_tabla("");
         }
-    }//GEN-LAST:event_updateActionPerformed
+    }//GEN-LAST:event_eliminarActionPerformed
+
+    private void update1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_update1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_update1ActionPerformed
+
+    private void agregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_agregarActionPerformed
+        
+    }//GEN-LAST:event_agregarActionPerformed
 
     public int numeros(JTextField x) {
         try {
@@ -225,9 +251,11 @@ public class inventario extends javax.swing.JPanel {
         }
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton actualizar;
+    private javax.swing.JButton agregar;
     private javax.swing.JTextArea caracteristicas;
+    private javax.swing.JButton consultar;
     private javax.swing.JScrollPane contenedor;
+    private javax.swing.JButton eliminar;
     private javax.swing.JComboBox<String> estado;
     private javax.swing.JTextField filtrado;
     private javax.swing.JLabel jLabel1;
@@ -242,6 +270,6 @@ public class inventario extends javax.swing.JPanel {
     private javax.swing.JTable tabla;
     private javax.swing.JTextField tipo_objeto;
     private javax.swing.JTextField unidades;
-    private javax.swing.JButton update;
+    private javax.swing.JButton update1;
     // End of variables declaration//GEN-END:variables
 }

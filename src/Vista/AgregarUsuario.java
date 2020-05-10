@@ -1,16 +1,20 @@
 package Vista;
-
-import Controlador.Nodo_usuarios;
 import Modelo.JavaConexion;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 
 public class AgregarUsuario extends javax.swing.JFrame {
-
-//    static ManejoDatos mDato;
-    public JTable tabla;
-    public static gimnasio Gym;
-    
+    JavaConexion BD;
+    listaU l1;
+    String nombre;
+    String cedula;
+    //le agregue este metodo para insertarlo en el panel de usuarios
+    public void getBD(String nombre,String cedula,JavaConexion BD,listaU l1){
+        this.BD=BD;
+        this.l1=l1;
+        this.nombre=nombre;
+        this.cedula=cedula;
+    }
     public AgregarUsuario() {
         initComponents();
         this.setLocationRelativeTo(null);
@@ -19,15 +23,6 @@ public class AgregarUsuario extends javax.swing.JFrame {
         tel.setVisible(false);
         cor.setVisible(false);
         dir.setVisible(false);
-    }
-    
-    /*
-    Si da problemas el metodo, puende eliminarlo , su funcion es de solo hacer visible 
-    esta Jframe y noVisible el JFrame Principal y vicebersa
-    */ 
-    public void cargarInterfaz(gimnasio Gym) {
-        Gym = new gimnasio();
-        this.Gym = Gym;
     }
     //NO eliminar eset metodo
     public boolean validar() {
@@ -260,7 +255,7 @@ public class AgregarUsuario extends javax.swing.JFrame {
 
     private void salirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_salirActionPerformed
         this.setVisible(false);
-        Gym.setVisible(true);
+        l1.mostrar_tabla_admin("");
     }//GEN-LAST:event_salirActionPerformed
 
     private void EstatusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EstatusActionPerformed
@@ -276,19 +271,13 @@ public class AgregarUsuario extends javax.swing.JFrame {
     }//GEN-LAST:event_tipoUsuarioActionPerformed
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
-        JavaConexion javaMetodo = new JavaConexion();
         if (validar()) {
             //Datos de las Listas
             String mensaje = null;
             String mensaje1 = null;
             mensaje = Estatus.getSelectedItem().toString().toLowerCase();
             mensaje1 = tipoUsuario.getSelectedItem().toString().toLowerCase();
-
-            //Agregando todos los datos de Usuario al Nodo
-            Nodo_usuarios agregar = new Nodo_usuarios(Integer.parseInt(txtCedula.getText()), txtNombre.getText(), Integer.parseInt(txtTelefono.getText()), txtCorreo.getText(),
-                    txtDireccion.getText(), mensaje, mensaje1);
-            
-            javaMetodo.insert(agregar);
+            BD.insertU(Long.parseLong(txtCedula.getText().trim()),txtNombre.getText().trim(),Long.parseLong(txtTelefono.getText().trim()),txtCorreo.getText().trim(),txtDireccion.getText().trim(),mensaje,mensaje1);
             
             JOptionPane.showMessageDialog(null, "Usuario Agregado", "Agregando Usuario", JOptionPane.INFORMATION_MESSAGE);
             
@@ -299,7 +288,6 @@ public class AgregarUsuario extends javax.swing.JFrame {
             txtDireccion.setText("");
             
             this.setVisible(false);
-            Gym.setVisible(true);
         }
         
 
