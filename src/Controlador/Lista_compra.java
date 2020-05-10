@@ -45,8 +45,8 @@ public class Lista_compra {
 
     
     // Metodo para listar los productos.
-    public String[][] Listado_compra(JavaConexion BD) {
-        Lista_compra lista = BD.MostrarCompra();
+    public String[][] Listado_compra(JavaConexion BD, String filtro) {
+        Lista_compra lista = BD.MostrarCompra(filtro);
         if(!lista.estaVacio()){
         String[][] Bus_datos = new String[lista.getTamaño()][6];
         Nodo_compra primero = lista.ultimo.sig;
