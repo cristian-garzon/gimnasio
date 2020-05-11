@@ -2,14 +2,12 @@ package Vista;
 
 import Controlador.lista_usuarios;
 import Modelo.JavaConexion;
-import java.awt.Color;
 import java.awt.Graphics;
 import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
-import javax.swing.table.DefaultTableModel;
 
 public class listaU extends javax.swing.JPanel {
 

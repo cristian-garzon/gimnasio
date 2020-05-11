@@ -1,7 +1,6 @@
 package Vista;
 import Modelo.JavaConexion;
 import javax.swing.JOptionPane;
-import javax.swing.JTable;
 
 public class AgregarUsuario extends javax.swing.JFrame {
     JavaConexion BD;

@@ -66,6 +66,7 @@ public class JavaConexion {
                 break;
         }
     }
+
     public String estatus(String nombre, String cedula) {
         try {
             st = cn.createStatement();
@@ -149,15 +150,17 @@ public class JavaConexion {
         }
 
     }
+
     //metodo para actualizar el inventario 
-    public void updatei(String nombre,String tipo_objeto,String caracteristicas,String estado,int unidades,int id){
+    public void updatei(String nombre, String tipo_objeto, String caracteristicas, String estado, int unidades, int id) {
         try {
-            st= cn.createStatement();
-            st.execute("update inventario set nombre= '"+nombre+"', tipo_objeto='"+tipo_objeto+"', caracteristicas='"+caracteristicas+"', estado='"+estado+"',unidades="+unidades+" where id="+id);
+            st = cn.createStatement();
+            st.execute("update inventario set nombre= '" + nombre + "', tipo_objeto='" + tipo_objeto + "', caracteristicas='" + caracteristicas + "', estado='" + estado + "',unidades=" + unidades + " where id=" + id);
         } catch (Exception e) {
-            System.out.println("error al actualizar el inventario "+e);
+            System.out.println("error al actualizar el inventario " + e);
         }
     }
+
     public void update(long cedula, String nombre, long telefono, String correo, String direccion, String estatus, String tipo_usuario) {
         try {
             st = cn.createStatement();
@@ -166,21 +169,23 @@ public class JavaConexion {
             System.out.println("Error " + e.toString());
         }
     }
+
     //metodo para listar el inventario
-    public lista_inventario listari(String filtro){
-        lista_inventario lista= new lista_inventario();
+    public lista_inventario listari(String filtro) {
+        lista_inventario lista = new lista_inventario();
         try {
             st = cn.createStatement();
-            rs = st.executeQuery("SELECT * FROM INVENTARIO WHERE nombre like '"+filtro+"%'");
-            while(rs.next()){
-                lista.agregar(Integer.parseInt(rs.getString(1)), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), Integer.parseInt(rs.getString(7)));          
+            rs = st.executeQuery("SELECT * FROM INVENTARIO WHERE nombre like '" + filtro + "%'");
+            while (rs.next()) {
+                lista.agregar(Integer.parseInt(rs.getString(1)), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), Integer.parseInt(rs.getString(7)));
             }
         } catch (SQLException e) {
-            System.out.println(" error al listar el inventario "+e);
+            System.out.println(" error al listar el inventario " + e);
         }
         return lista;
     }
-       //metodo para listar los usuarios
+    //metodo para listar los usuarios
+
     public lista_usuarios listar(String filtro) {
         lista_usuarios lista = new lista_usuarios();
         try {
@@ -215,12 +220,12 @@ public class JavaConexion {
         Lista_compra Lista = new Lista_compra();
         try {
             st = cn.createStatement();
-            rs = st.executeQuery("select * from productos where tipo like  '"+filtro+"%'");
+            rs = st.executeQuery("select * from productos where tipo like  '" + filtro + "%'");
             while (rs.next()) {
                 Lista.AgregarCompra(Integer.parseInt(rs.getString(1)), rs.getString(2), Integer.parseInt(rs.getString(3)), Integer.parseInt(rs.getString(4)), rs.getString(5), rs.getString(6));
             }
         } catch (SQLException e) {
-            System.out.println("Hubo un error en mostrar compra."+e.getMessage());
+            System.out.println("Hubo un error en mostrar compra." + e.getMessage());
         }
         return Lista;
     }
@@ -306,28 +311,24 @@ public class JavaConexion {
         }
     }
 
-    //COMMINT 
-//Agregando Metodo INSERTAR DATOS para MySql
-    public int insert(Nodo_usuarios usuario) {
-        String SQL_INSERT = "INSERT INTO usuarios(cedula,nombre,telefono,correo,direccion,estatus,tipo_usuario) VALUES(" + usuario.getCedula() + "," + usuario.getNombre() + ", " + usuario.getTelefono() + ", " + usuario.getCorreo() + "," + usuario.getDireccion() + ", " + usuario.getEstatus() + ", " + usuario.getTipo_usuario() + ")";
-        PreparedStatement stmt = null;
-        int rows = 0;
-        try {
-            st = cn.createStatement();
-            rs = st.executeQuery(SQL_INSERT);
-        } catch (SQLException ex) {
-            ex.printStackTrace(System.out);
-            System.out.println("error al insertar "+ex.getMessage());
-        }
-        return rows;
-    }
     //agregar el usuario
-    public void insertU(long cedula,String nombre,long telefono,String correo,String direccion, String estatus,String tipo_usuario ){
+    public void insertU(long cedula, String nombre, long telefono, String correo, String direccion, String estatus, String tipo_usuario) {
         try {
             st = cn.createStatement();
-            rs=st.executeQuery("INSERT INTO USUARIOS VALUES ("+cedula+",'"+nombre+"',"+telefono+",'"+correo+"','"+direccion+"','"+estatus+"','"+tipo_usuario+"') ");    
+            rs = st.executeQuery("INSERT INTO USUARIOS VALUES (" + cedula + ",'" + nombre + "'," + telefono + ",'" + correo + "','" + direccion + "','" + estatus + "','" + tipo_usuario + "') ");
         } catch (Exception e) {
-            System.out.println("error al agregar "+e.getMessage());
+            System.out.println("error al agregar " + e.getMessage());
+        }
+    }
+
+    //Agregar Producto
+    public void insertarProducto(int id_producto, String tipo, int cantidad, int precio, String peso, String detalles) {
+        try {
+            st = cn.createStatement();
+            rs = st.executeQuery("INSERTO INTO PRODUCTOS VALUES (" + id_producto
+                    + ",'" + tipo + "'," + cantidad + "," + precio + ",'" + peso + "','" + detalles + "')");
+        } catch (SQLException e) {
+            e.printStackTrace(System.out);
         }
     }
 

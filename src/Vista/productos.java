@@ -10,11 +10,12 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 public class productos extends javax.swing.JPanel {
-
+    
     JavaConexion BD;
     String nombre;
     String cedula;
     long id_producto;
+
     public productos() {
         initComponents();
         peso.setEnabled(false);
@@ -24,7 +25,7 @@ public class productos extends javax.swing.JPanel {
         detalles.setEnabled(false);
         consultar.setVisible(false);
     }
-
+    
     @Override
     public void paint(Graphics g) {
         ImageIcon icon = new ImageIcon(getClass().getResource("/imagenes/mancuernas1.png"));;
@@ -32,7 +33,7 @@ public class productos extends javax.swing.JPanel {
         this.setOpaque(false);
         super.paint(g);
     }
-
+    
     public void getcredenciales(String Nombre, String cedula, JavaConexion BD) {
         this.BD = BD;
         this.nombre = nombre;
@@ -44,7 +45,7 @@ public class productos extends javax.swing.JPanel {
             consultar.setVisible(true);
         }
     }
-
+    
     public void mostrar_tabla(String filtro) {
         lista_producto lista = new lista_producto();
         String titulos[] = {"ID PRODUCTO", "TIPO", "CANTIDAD", "PRECIO", "PESO", "DETALLES"};
@@ -52,7 +53,7 @@ public class productos extends javax.swing.JPanel {
         tabla = new JTable(informacion, titulos);
         contenedor.setViewportView(tabla);
     }
-
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -77,6 +78,7 @@ public class productos extends javax.swing.JPanel {
         jScrollPane1 = new javax.swing.JScrollPane();
         detalles = new javax.swing.JTextArea();
         update = new javax.swing.JButton();
+        btnAgregar = new javax.swing.JButton();
 
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -182,6 +184,14 @@ public class productos extends javax.swing.JPanel {
             }
         });
         add(update, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 450, -1, -1));
+
+        btnAgregar.setText("Agregar");
+        btnAgregar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAgregarActionPerformed(evt);
+            }
+        });
+        add(btnAgregar, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 260, -1, -1));
     }// </editor-fold>//GEN-END:initComponents
 
     private void filtradoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_filtradoKeyReleased
@@ -199,7 +209,7 @@ public class productos extends javax.swing.JPanel {
             mostrar_tabla("");
         } else {
             JOptionPane.showMessageDialog(null, "tiene que escojer una fila para eliminarla");
-
+            
         }
     }//GEN-LAST:event_eliminarActionPerformed
 
@@ -223,7 +233,7 @@ public class productos extends javax.swing.JPanel {
             cantidad.setText(tabla.getValueAt(tabla.getSelectedRow(), 2).toString());
             precio.setText(tabla.getValueAt(tabla.getSelectedRow(), 3).toString());
             detalles.setText(tabla.getValueAt(tabla.getSelectedRow(), 5).toString());
-            id_producto=Integer.parseInt(tabla.getValueAt(tabla.getSelectedRow(), 0).toString());
+            id_producto = Integer.parseInt(tabla.getValueAt(tabla.getSelectedRow(), 0).toString());
         }
     }//GEN-LAST:event_modificarActionPerformed
 
@@ -252,10 +262,16 @@ public class productos extends javax.swing.JPanel {
 
     private void updateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateActionPerformed
         if (vacio(tipo) + vacio(cantidad) + vacio(precio) + detallesA(detalles) == 4) {
-            BD.updatep(id_producto,tipo.getText().trim(), Integer.parseInt(precio.getText().trim()), peso.getText().trim(), detalles.getText().trim(), Integer.parseInt(cantidad.getText().trim()));
+            BD.updatep(id_producto, tipo.getText().trim(), Integer.parseInt(precio.getText().trim()), peso.getText().trim(), detalles.getText().trim(), Integer.parseInt(cantidad.getText().trim()));
             mostrar_tabla("");
         }
     }//GEN-LAST:event_updateActionPerformed
+
+    private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
+        AgregarProducto agregar = new AgregarProducto();
+        agregar.getBD(nombre, cedula, BD, this);
+        agregar.setVisible(true);
+    }//GEN-LAST:event_btnAgregarActionPerformed
     public int detallesA(JTextArea x) {
         if (x.getText().trim() == "") {
             return 0;
@@ -263,7 +279,7 @@ public class productos extends javax.swing.JPanel {
             return 1;
         }
     }
-
+    
     public int vacio(JTextField x) {
         if (x.getText().trim() == "") {
             return 0;
@@ -271,7 +287,7 @@ public class productos extends javax.swing.JPanel {
             return 1;
         }
     }
-
+    
     public int numeros(JTextField x) {
         try {
             Long.parseLong(x.getText().trim());
@@ -283,6 +299,7 @@ public class productos extends javax.swing.JPanel {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAgregar;
     private javax.swing.JTextField cantidad;
     private javax.swing.JButton consultar;
     private javax.swing.JScrollPane contenedor;
