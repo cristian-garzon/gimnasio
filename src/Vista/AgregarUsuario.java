@@ -59,10 +59,6 @@ public class AgregarUsuario extends javax.swing.JFrame {
         
     }
 
-//    public void recibir(ManejoDatos mDato, JTable tabla) {
-//        this.mDato = mDato;
-//        this.tabla = tabla;
-//    }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -271,25 +267,24 @@ public class AgregarUsuario extends javax.swing.JFrame {
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         if (validar()) {
-            //Datos de las Listas
-            String mensaje = null;
-            String mensaje1 = null;
-            mensaje = Estatus.getSelectedItem().toString().toLowerCase();
-            mensaje1 = tipoUsuario.getSelectedItem().toString().toLowerCase();
-            BD.insertU(Long.parseLong(txtCedula.getText().trim()),txtNombre.getText().trim(),Long.parseLong(txtTelefono.getText().trim()),txtCorreo.getText().trim(),txtDireccion.getText().trim(),mensaje,mensaje1);
-            
-            JOptionPane.showMessageDialog(null, "Usuario Agregado", "Agregando Usuario", JOptionPane.INFORMATION_MESSAGE);
-            
-            txtCedula.setText("");
-            txtNombre.setText("");
-            txtTelefono.setText("");
-            txtCorreo.setText("");
-            txtDireccion.setText("");
-            
-            this.setVisible(false);
+            if (BD.pk(Long.parseLong(txtCedula.getText().trim()),"USUARIOS","CEDULA")) {
+                String mensaje;
+                String mensaje1;
+                mensaje = Estatus.getSelectedItem().toString().toLowerCase();
+                mensaje1 = tipoUsuario.getSelectedItem().toString().toLowerCase();
+                BD.insertU(Long.parseLong(txtCedula.getText().trim()), txtNombre.getText().trim(), Long.parseLong(txtTelefono.getText().trim()), txtCorreo.getText().trim(), txtDireccion.getText().trim(), mensaje, mensaje1);
+                JOptionPane.showMessageDialog(null, "Usuario Agregado", "Agregando Usuario", JOptionPane.INFORMATION_MESSAGE);
+                txtCedula.setText("");
+                txtNombre.setText("");
+                txtTelefono.setText("");
+                txtCorreo.setText("");
+                txtDireccion.setText("");
+                this.setVisible(false);
+            } else {
+                txtCedula.setText("");
+                JOptionPane.showMessageDialog(null, "la cedula que esta intentando insertar, ya esta en la base de datos", "igualdad en una cedula", JOptionPane.WARNING_MESSAGE);
+            }
         }
-        
-
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void txtCedulaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCedulaKeyTyped

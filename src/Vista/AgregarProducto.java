@@ -1,6 +1,7 @@
 package Vista;
 
 import Modelo.JavaConexion;
+import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 
@@ -36,11 +37,6 @@ public class AgregarProducto extends javax.swing.JFrame {
             i.setVisible(true);
         } else {
             i.setVisible(false);
-        }
-        if (txtTipo.getText().isEmpty()) {
-            ti.setVisible(true);
-        } else {
-            ti.setVisible(false);
         }
         if (txtCantidad.getText().isEmpty()) {
             ca.setVisible(true);
@@ -84,7 +80,6 @@ public class AgregarProducto extends javax.swing.JFrame {
         lbDetalles = new javax.swing.JLabel();
         txtPeso = new javax.swing.JTextField();
         lbTipo = new javax.swing.JLabel();
-        txtTipo = new javax.swing.JTextField();
         id = new javax.swing.JLabel();
         txtId = new javax.swing.JTextField();
         lbPrecio = new javax.swing.JLabel();
@@ -99,6 +94,7 @@ public class AgregarProducto extends javax.swing.JFrame {
         ca = new javax.swing.JLabel();
         pr = new javax.swing.JLabel();
         de = new javax.swing.JLabel();
+        tipo = new javax.swing.JComboBox<>();
 
         salir.setBackground(new java.awt.Color(255, 255, 255));
         salir.setForeground(new java.awt.Color(0, 122, 204));
@@ -181,15 +177,6 @@ public class AgregarProducto extends javax.swing.JFrame {
         lbTipo.setText("Tipo");
         jPanel2.add(lbTipo, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 50, 100, -1));
 
-        txtTipo.setFont(new java.awt.Font("Century", 0, 18)); // NOI18N
-        txtTipo.setForeground(new java.awt.Color(0, 0, 0));
-        txtTipo.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                txtTipoKeyTyped(evt);
-            }
-        });
-        jPanel2.add(txtTipo, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 70, 150, -1));
-
         id.setBackground(new java.awt.Color(255, 255, 255));
         id.setFont(new java.awt.Font("Century", 0, 18)); // NOI18N
         id.setForeground(new java.awt.Color(0, 0, 0));
@@ -229,6 +216,7 @@ public class AgregarProducto extends javax.swing.JFrame {
         jtDetalles.setColumns(20);
         jtDetalles.setFont(new java.awt.Font("Century", 0, 18)); // NOI18N
         jtDetalles.setForeground(new java.awt.Color(0, 0, 0));
+        jtDetalles.setLineWrap(true);
         jtDetalles.setRows(5);
         jtDetalles.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
@@ -280,6 +268,19 @@ public class AgregarProducto extends javax.swing.JFrame {
         de.setText("*Llenar Espacio");
         jPanel2.add(de, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 360, -1, -1));
 
+        tipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "suplemento", "mancuerna", "barra", "discos", "camiseta", "esqueleto", "pantalon", "pantaloneta" }));
+        tipo.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                tipoItemStateChanged(evt);
+            }
+        });
+        tipo.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tipoMouseClicked(evt);
+            }
+        });
+        jPanel2.add(tipo, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 70, 150, 30));
+
         getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 50, 620, 390));
 
         pack();
@@ -296,40 +297,56 @@ public class AgregarProducto extends javax.swing.JFrame {
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         if (validar()) {
-
+            if(bd.pk(Long.parseLong(txtId.getText().trim()), "PRODUCTOS", "ID")){
             bd.insertarProducto(Integer.parseInt(txtId.getText().trim()),
-                    txtTipo.getText().trim(),
+                    opcionTipo(tipo),
                     Integer.parseInt(txtCantidad.getText().trim()),
                     Integer.parseInt(txtPrecio.getText().trim()),
                     txtPeso.getText().trim(), jtDetalles.getText().trim());
-
             JOptionPane.showMessageDialog(null, "Producto Agregado", "Agregando Producto", JOptionPane.INFORMATION_MESSAGE);
 
             txtId.setText("");
-            txtTipo.setText("");
             txtCantidad.setText("");
             txtPrecio.setText("");
             txtPeso.setText("");
             jtDetalles.setText("");
-
             this.setVisible(false);
+            }
+            else{
+                JOptionPane.showMessageDialog(null, "identificador duplicado");
+            }
         } else {
 
         }
-
     }//GEN-LAST:event_btnGuardarActionPerformed
+    public String opcionTipo(JComboBox x) {
+        switch (x.getSelectedIndex() + 1) {
+            case 1:
+                return "suplemento";
+            case 2:
+                return "mancuerna";
+            case 3:
+                return "barra";
+            case 4:
+                return "discos";
+            case 5:
+                return "camiseta";
+            case 6:
+                return "esqueleto";
+            case 7:
+                return "pantalon";
+            case 8:
+                return "pantaloneta";
+            default:
+                return "";
+        }
 
+    }
     private void txtIdKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtIdKeyTyped
         char c = evt.getKeyChar();
         if (c < '0' || c > '9')
             evt.consume(); //Desecha lo que no esta entre el rango
     }//GEN-LAST:event_txtIdKeyTyped
-
-    private void txtTipoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTipoKeyTyped
-        char c = evt.getKeyChar();
-        if ((c < 'a' || c > 'z') && (c < 'A' || c > 'Z'))
-            evt.consume();
-    }//GEN-LAST:event_txtTipoKeyTyped
 
     private void txtPesoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPesoKeyTyped
     }//GEN-LAST:event_txtPesoKeyTyped
@@ -352,6 +369,22 @@ public class AgregarProducto extends javax.swing.JFrame {
     private void txtPesoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPesoActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtPesoActionPerformed
+
+    private void tipoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tipoMouseClicked
+
+    }//GEN-LAST:event_tipoMouseClicked
+
+    private void tipoItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_tipoItemStateChanged
+        if ((opcionTipo(tipo) == "suplemento" || opcionTipo(tipo) == "mancuerna" || opcionTipo(tipo) == "barra" || opcionTipo(tipo) == "discos")) {
+            lbPeso.setVisible(false);
+            txtPeso.setText("");
+            txtPeso.setVisible(false);
+        } else {
+
+            lbPeso.setVisible(false);
+            txtPeso.setVisible(true);
+        }
+    }//GEN-LAST:event_tipoItemStateChanged
 
     /**
      * @param args the command line arguments
@@ -386,11 +419,11 @@ public class AgregarProducto extends javax.swing.JFrame {
     private javax.swing.JButton salir;
     private javax.swing.JButton salir1;
     private javax.swing.JLabel ti;
+    private javax.swing.JComboBox<String> tipo;
     private javax.swing.JLabel titulo;
     private javax.swing.JTextField txtCantidad;
     private javax.swing.JTextField txtId;
     private javax.swing.JTextField txtPeso;
     private javax.swing.JTextField txtPrecio;
-    private javax.swing.JTextField txtTipo;
     // End of variables declaration//GEN-END:variables
 }

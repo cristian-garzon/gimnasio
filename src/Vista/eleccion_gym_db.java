@@ -75,8 +75,6 @@ public class eleccion_gym_db extends javax.swing.JFrame {
 
         postgresql.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/Postgresql_opt.png"))); // NOI18N
         postgresql.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        postgresql.setContentAreaFilled(false);
-        postgresql.setDefaultCapable(false);
         postgresql.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 postgresqlActionPerformed(evt);

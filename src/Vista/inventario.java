@@ -15,6 +15,8 @@ public class inventario extends javax.swing.JPanel {
     JavaConexion BD;
     String Nombre, cedula;
     int id;
+    String tipo_objeto;
+
     @Override
     public void paint(Graphics g) {
         ImageIcon icon = new ImageIcon(getClass().getResource("/imagenes/fondo inventario.jpg"));
@@ -27,10 +29,10 @@ public class inventario extends javax.swing.JPanel {
         initComponents();
         this.setSize(750, 550);
         nombre.setEnabled(false);
-        tipo_objeto.setEnabled(false);
         estado.setEnabled(false);
         caracteristicas.setEnabled(false);
         unidades.setEnabled(false);
+        actualizar.setEnabled(false);
         eliminar.setEnabled(false);
     }
 
@@ -62,19 +64,17 @@ public class inventario extends javax.swing.JPanel {
         filtrado = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         nombre = new javax.swing.JTextField();
-        tipo_objeto = new javax.swing.JTextField();
         unidades = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         caracteristicas = new javax.swing.JTextArea();
         estado = new javax.swing.JComboBox<>();
-        eliminar = new javax.swing.JButton();
+        actualizar = new javax.swing.JButton();
         consultar = new javax.swing.JButton();
-        update1 = new javax.swing.JButton();
+        eliminar = new javax.swing.JButton();
         agregar = new javax.swing.JButton();
 
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -108,11 +108,10 @@ public class inventario extends javax.swing.JPanel {
 
         jLabel1.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setText("filtrar por tipo");
-        add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 30, -1, -1));
+        jLabel1.setText("filtrar por Nombre");
+        add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 30, -1, -1));
         add(nombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 330, 150, -1));
-        add(tipo_objeto, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 400, 150, -1));
-        add(unidades, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 470, 230, -1));
+        add(unidades, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 400, 150, -1));
 
         jLabel2.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
@@ -124,11 +123,6 @@ public class inventario extends javax.swing.JPanel {
         jLabel3.setText("Nombre: ");
         add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 330, -1, -1));
 
-        jLabel4.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel4.setText("Tipo de objeto:");
-        add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 400, -1, -1));
-
         jLabel5.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
         jLabel5.setText("Caracteristicas:");
@@ -137,25 +131,25 @@ public class inventario extends javax.swing.JPanel {
         jLabel6.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(255, 255, 255));
         jLabel6.setText("Unidades:");
-        add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 470, -1, -1));
+        add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 400, -1, -1));
 
         caracteristicas.setColumns(20);
         caracteristicas.setLineWrap(true);
         caracteristicas.setRows(5);
         jScrollPane1.setViewportView(caracteristicas);
 
-        add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 330, -1, 110));
+        add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 330, -1, 160));
 
         estado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "activo", "inactivo", "en reparacion" }));
         add(estado, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 470, 150, -1));
 
-        eliminar.setText("eliminar");
-        eliminar.addActionListener(new java.awt.event.ActionListener() {
+        actualizar.setText("actualizar");
+        actualizar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                eliminarActionPerformed(evt);
+                actualizarActionPerformed(evt);
             }
         });
-        add(eliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 510, -1, -1));
+        add(actualizar, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 510, -1, -1));
 
         consultar.setText("consultar");
         consultar.addActionListener(new java.awt.event.ActionListener() {
@@ -165,13 +159,13 @@ public class inventario extends javax.swing.JPanel {
         });
         add(consultar, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 260, -1, -1));
 
-        update1.setText("actualizar");
-        update1.addActionListener(new java.awt.event.ActionListener() {
+        eliminar.setText("eliminar");
+        eliminar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                update1ActionPerformed(evt);
+                eliminarActionPerformed(evt);
             }
         });
-        add(update1, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 510, -1, -1));
+        add(eliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 510, -1, -1));
 
         agregar.setText("agregar");
         agregar.addActionListener(new java.awt.event.ActionListener() {
@@ -179,7 +173,7 @@ public class inventario extends javax.swing.JPanel {
                 agregarActionPerformed(evt);
             }
         });
-        add(agregar, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 260, -1, -1));
+        add(agregar, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 260, -1, -1));
     }// </editor-fold>//GEN-END:initComponents
 
     private void filtradoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_filtradoKeyReleased
@@ -189,32 +183,55 @@ public class inventario extends javax.swing.JPanel {
     private void consultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_consultarActionPerformed
         if (tabla.getSelectedRow() >= 0) {
             nombre.setEnabled(true);
-            tipo_objeto.setEnabled(true);
             estado.setEnabled(true);
             caracteristicas.setEnabled(true);
             unidades.setEnabled(true);
+            actualizar.setEnabled(true);
             eliminar.setEnabled(true);
+            tipo_objeto=(tabla.getValueAt(tabla.getSelectedRow(), 3).toString());
             nombre.setText(tabla.getValueAt(tabla.getSelectedRow(), 2).toString());
-            tipo_objeto.setText(tabla.getValueAt(tabla.getSelectedRow(), 3).toString());
             caracteristicas.setText(tabla.getValueAt(tabla.getSelectedRow(), 4).toString());
             unidades.setText(tabla.getValueAt(tabla.getSelectedRow(), 6).toString());
-            id=Integer.parseInt(tabla.getValueAt(tabla.getSelectedRow(), 0).toString());
+            id = Integer.parseInt(tabla.getValueAt(tabla.getSelectedRow(), 0).toString());
         }
     }//GEN-LAST:event_consultarActionPerformed
 
-    private void eliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eliminarActionPerformed
-        if(vacio(nombre)+vacio(tipo_objeto)+vacio(caracteristicas)+vacio(unidades)+numeros(unidades)==5){
-            BD.updatei(nombre.getText().trim(), tipo_objeto.getText().trim(), caracteristicas.getText().trim(),opcion(estado) , Integer.parseInt(unidades.getText().trim()),id);
+    private void actualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_actualizarActionPerformed
+        if (vacio(nombre) + vacio(caracteristicas) + vacio(unidades) + numeros(unidades) == 4) {
+            BD.updatei(nombre.getText().trim(), tipo_objeto, caracteristicas.getText().trim(), opcion(estado), Integer.parseInt(unidades.getText().trim()), id);
             mostrar_tabla("");
+            filtrado.setText("");
+            actualizar.setEnabled(false);
+            eliminar.setEnabled(false);
+            nombre.setEnabled(false);
+            nombre.setText("");
+            estado.setEnabled(false);
+            caracteristicas.setEnabled(false);
+            caracteristicas.setText("");
+            unidades.setEnabled(false);
+            unidades.setText("");
         }
+    }//GEN-LAST:event_actualizarActionPerformed
+
+    private void eliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eliminarActionPerformed
+        BD.deletei(id);
+        mostrar_tabla("");
+        filtrado.setText("");
+        actualizar.setEnabled(false);
+        eliminar.setEnabled(false);
+        nombre.setEnabled(false);
+        nombre.setText("");
+        estado.setEnabled(false);
+        caracteristicas.setEnabled(false);
+        caracteristicas.setText("");
+        unidades.setEnabled(false);
+        unidades.setText("");
     }//GEN-LAST:event_eliminarActionPerformed
 
-    private void update1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_update1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_update1ActionPerformed
-
     private void agregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_agregarActionPerformed
-        
+        agregar_inventario a1 = new agregar_inventario();
+        a1.setVisible(true);
+        a1.getBD(BD, this);
     }//GEN-LAST:event_agregarActionPerformed
 
     public int numeros(JTextField x) {
@@ -228,14 +245,37 @@ public class inventario extends javax.swing.JPanel {
     }
 
     public String opcion(JComboBox x) {
-        switch(x.getSelectedIndex()+1){
-            case 1: return "activo";
-            case 2: return "inactivo";
-            case 3: return "en reparacion";
-            default: return "";
+        switch (x.getSelectedIndex() + 1) {
+            case 1:
+                return "activo";
+            case 2:
+                return "inactivo";
+            case 3:
+                return "en reparacion";
+            default:
+                return "";
         }
-        
+
     }
+
+    public String opcionTipo(JComboBox x) {
+        switch (x.getSelectedIndex() + 1) {
+            case 1:
+                return "maquina";
+            case 2:
+                return "pesa";
+            case 3:
+                return "barra";
+            case 4:
+                return "limpieza";
+            case 5:
+                return "computador";
+            default:
+                return "";
+        }
+
+    }
+
     public int vacio(JTextArea x) {
         if (x.getText().trim() == "") {
             return 0;
@@ -243,6 +283,7 @@ public class inventario extends javax.swing.JPanel {
             return 1;
         }
     }
+
     public int vacio(JTextField x) {
         if (x.getText().trim() == "") {
             return 0;
@@ -251,6 +292,7 @@ public class inventario extends javax.swing.JPanel {
         }
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton actualizar;
     private javax.swing.JButton agregar;
     private javax.swing.JTextArea caracteristicas;
     private javax.swing.JButton consultar;
@@ -261,15 +303,12 @@ public class inventario extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField nombre;
     private javax.swing.JLabel presentacion;
     private javax.swing.JTable tabla;
-    private javax.swing.JTextField tipo_objeto;
     private javax.swing.JTextField unidades;
-    private javax.swing.JButton update1;
     // End of variables declaration//GEN-END:variables
 }

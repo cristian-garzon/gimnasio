@@ -22,15 +22,15 @@ public class JavaConexion {
         this.opcion = opcion;
     }
 
+    //METODO PRINCIPAL PARA LA CONEXION HACIA LAS BASES DE DATOS
     public void conectar() {
         switch (opcion) {
             case "postgres":
                 url = "jdbc:postgresql://localhost:5432/GYMDB";
                 user = "postgres";
-                password = "daniel22p3";
+                password = "1234";
                 try {
                     cn = DriverManager.getConnection(url, user, password);
-                    JOptionPane.showMessageDialog(null, "Base de Datos conectada");
                 } catch (SQLException e) {
                     System.out.println("Error" + e.toString());
                 }
@@ -43,7 +43,7 @@ public class JavaConexion {
                     Class.forName("oracle.jdbc.driver.OracleDriver");
                     cn = DriverManager.getConnection(url, user, password);
                     if (cn != null) {
-                        JOptionPane.showMessageDialog(null, "Base de Datos conectada codigo de conexión: \n" + cn.toString());
+                        JOptionPane.showMessageDialog(null, "Base de Datos conectada" + cn.toString());
                     }
                 } catch (ClassNotFoundException | SQLException e) {
                     JOptionPane.showMessageDialog(null, e.toString());
@@ -66,7 +66,9 @@ public class JavaConexion {
                 break;
         }
     }
-
+//////////////////////////////////////////////////////////////////////////////
+///////////////////////////////METODOS DEL LOGIN//////////////////////////////
+    //METODO PARA SABER EL TIPO DE USUARIOS QUE ES, SI EMPLEADO, ADMINISTRADOR O CLIENTE
     public String estatus(String nombre, String cedula) {
         try {
             st = cn.createStatement();
@@ -81,11 +83,11 @@ public class JavaConexion {
         }
     }
 
+    //METODO PARA SABER SI EL USUARIO EXISTE EN LA BASE DE DATOS
     public boolean validarUsuario(String nombre, String cedula) {
         try {
-            String sql = "select nombre,cedula from usuarios";
-            Statement st = cn.createStatement();
-            ResultSet rs = st.executeQuery(sql);
+            st = cn.createStatement();
+            rs = st.executeQuery("select nombre,cedula from usuarios");
             while (rs.next()) {
                 if (rs.getString(1).equals(nombre) && rs.getString(2).equals(cedula)) {
                     return true;
@@ -97,8 +99,9 @@ public class JavaConexion {
             return false;
         }
     }
-
-    //metodo para eliminar el datp que pasan
+//////////////////////////////////////////////////////////////////////////////
+///////////////////////METODOS DEL PANEL USUARIO//////////////////////////////
+    //METODO PARA ELIMINAR EL USUARIO
     public void eliminar(String cedula) {
         try {
             st = cn.createStatement();
@@ -107,85 +110,7 @@ public class JavaConexion {
         }
     }
 
-    //metodo para eliminar al producto papaaaaa
-    public void eliminarp(String id_producto) {
-        try {
-            st = cn.createStatement();
-            rs = st.executeQuery("DELETE FROM productos where id_productos=" + id_producto);
-        } catch (SQLException e) {
-        }
-    }
-
-    //actualizar producto
-    public void updatep(long producto, String tipo, int precio, String peso, String detalles, int cantidad) {
-        try {
-            st = cn.createStatement();
-            rs = st.executeQuery("UPDATE productos set tipo='" + tipo + "',cantidad=" + cantidad + ",precio=" + precio + ",peso='" + peso + "',detalles='" + detalles + "'" + "where id_productos=" + producto);
-        } catch (SQLException e) {
-            System.out.println("error al actualizar " + e);
-        }
-    }
-
-    public void consulta(String id) {
-        try {
-            String sql = "select nombre,telefono,correo,direccion,estatus,tipo_usuario from usuarios where cedula =  " + id;
-            Statement st = cn.createStatement();
-            ResultSet rs = st.executeQuery(sql);
-            while (rs.next()) {
-                JOptionPane.showMessageDialog(null, "Nombre : " + rs.getNString(1));
-            }
-        } catch (SQLException e) {
-            System.out.println("Error " + e.toString());
-        }
-    }
-
-    public void instert(long cedula, String nombre, String apellido, long telefono) {
-        try {
-            String sql = "insert into usuarios (cedula,nombre,apellido,telefono) values (" + cedula + ",'" + nombre + "' , '" + apellido + "' ," + telefono + ")";
-            Statement st = cn.createStatement();
-            st.executeQuery(sql);
-        } catch (SQLException e) {
-            System.out.println("Error " + e.toString());
-
-        }
-
-    }
-
-    //metodo para actualizar el inventario 
-    public void updatei(String nombre, String tipo_objeto, String caracteristicas, String estado, int unidades, int id) {
-        try {
-            st = cn.createStatement();
-            st.execute("update inventario set nombre= '" + nombre + "', tipo_objeto='" + tipo_objeto + "', caracteristicas='" + caracteristicas + "', estado='" + estado + "',unidades=" + unidades + " where id=" + id);
-        } catch (Exception e) {
-            System.out.println("error al actualizar el inventario " + e);
-        }
-    }
-
-    public void update(long cedula, String nombre, long telefono, String correo, String direccion, String estatus, String tipo_usuario) {
-        try {
-            st = cn.createStatement();
-            st.executeUpdate("update usuarios set nombre = '" + nombre + "', telefono=" + telefono + ",correo='" + correo + "',direccion='" + direccion + "',estatus='" + estatus + "', tipo_usuario='" + tipo_usuario + "'  where cedula =" + cedula);
-        } catch (SQLException e) {
-            System.out.println("Error " + e.toString());
-        }
-    }
-
-    //metodo para listar el inventario
-    public lista_inventario listari(String filtro) {
-        lista_inventario lista = new lista_inventario();
-        try {
-            st = cn.createStatement();
-            rs = st.executeQuery("SELECT * FROM INVENTARIO WHERE nombre like '" + filtro + "%'");
-            while (rs.next()) {
-                lista.agregar(Integer.parseInt(rs.getString(1)), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), Integer.parseInt(rs.getString(7)));
-            }
-        } catch (SQLException e) {
-            System.out.println(" error al listar el inventario " + e);
-        }
-        return lista;
-    }
-    //metodo para listar los usuarios
-
+    //METODO PARA ENLISTAR LOS USUARIOS
     public lista_usuarios listar(String filtro) {
         lista_usuarios lista = new lista_usuarios();
         try {
@@ -200,7 +125,123 @@ public class JavaConexion {
         return lista;
     }
 
-    //metodo para listar los productos
+    //METODO PARA AGREGAR EL USUARIO
+    public void insertU(long cedula, String nombre, long telefono, String correo, String direccion, String estatus, String tipo_usuario) {
+        try {
+            st = cn.createStatement();
+            rs = st.executeQuery("INSERT INTO USUARIOS VALUES (" + cedula + ",'" + nombre + "'," + telefono + ",'" + correo + "','" + direccion + "','" + estatus + "','" + tipo_usuario + "') ");
+        } catch (Exception e) {
+            System.out.println("error al agregar a los usuarios " + e);
+        }
+    }
+
+    //METODO PARA SABER QUE NO ESTA DUPLICANDO EL USUARIO
+    public boolean pk(long id,String lista,String indicador) {
+        try {
+            st = cn.createStatement();
+            rs = st.executeQuery("SELECT cedula FROM "+lista+" where "+indicador+"=" + id + "");
+            while (rs.next()) {
+                System.out.println(rs.getString(1));
+                System.out.println(id);
+                if (Long.parseLong(rs.getString(1)) == id) {
+                    return false;
+                }
+            }
+        } catch (SQLException e) {
+        }
+        return true;
+    }
+
+    //METODO PARA CONSULTAR EL USUARIO
+    public void consulta(String id) {
+        try {
+            String sql = "select nombre,telefono,correo,direccion,estatus,tipo_usuario from usuarios where cedula =  " + id;
+            Statement st = cn.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            while (rs.next()) {
+                JOptionPane.showMessageDialog(null, "Nombre : " + rs.getNString(1));
+            }
+        } catch (SQLException e) {
+            System.out.println("Error " + e.toString());
+        }
+    }
+
+    //METODO PARA ACTUALIZAR LOS USUARIOS
+    public void update(long cedula, String nombre, long telefono, String correo, String direccion, String estatus, String tipo_usuario) {
+        try {
+            st = cn.createStatement();
+            st.executeUpdate("update usuarios set nombre = '" + nombre + "', telefono=" + telefono + ",correo='" + correo + "',direccion='" + direccion + "',estatus='" + estatus + "', tipo_usuario='" + tipo_usuario + "'  where cedula =" + cedula);
+        } catch (SQLException e) {
+            System.out.println("Error " + e.toString());
+        }
+    }
+//////////////////////////////////////////////////////////////////////////////
+/////////////////////METODOS DE EL PANEL DE INVENTARIO////////////////////////    
+    //METODO PARA ACTUALIZAR EL INVENTARIO
+    public void updatei(String nombre, String tipo_objeto, String caracteristicas, String estado, int unidades, int id) {
+        try {
+            st = cn.createStatement();
+            st.execute("update inventario set nombre= '" + nombre + "', tipo_objeto='" + tipo_objeto + "', caracteristicas='" + caracteristicas + "', estado='" + estado + "',unidades=" + unidades + " where id=" + id);
+        } catch (Exception e) {
+            System.out.println("error al actualizar el inventario " + e);
+        }
+    }
+
+    // METODO PARA AGREGAR AL INVENTARIO
+    public void inserti(String nombre, String tipo_objeto, String caracteristicas, String estado, int unidades) {
+        try {
+            st = cn.createStatement();
+            rs = st.executeQuery("INSERT INTO INVENTARIO  (fecha_ingreso,nombre,tipo_objeto,caracteristicas,estado,unidades) VALUES(current_date,'" + nombre + "','" + tipo_objeto + "','" + caracteristicas + "','" + estado + "'," + unidades + ")");
+        } catch (SQLException e) {
+            System.out.println("error al agregar al inventario " + e);
+        }
+    }
+
+    // METODO PARA ELIMINAR UN OBJETO DEL INVENTARIO
+    public void deletei(int id) {
+        try {
+            st = cn.createStatement();
+            rs = st.executeQuery("Delete from inventario where id = " + id);
+        } catch (SQLException e) {
+        }
+    }
+
+    //METODO PARA LISTAR EL INVENTARIO
+    public lista_inventario listari(String filtro) {
+        lista_inventario lista = new lista_inventario();
+        try {
+            st = cn.createStatement();
+            rs = st.executeQuery("SELECT * FROM INVENTARIO WHERE nombre like '" + filtro + "%'");
+            while (rs.next()) {
+                lista.agregar(Integer.parseInt(rs.getString(1)), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), Integer.parseInt(rs.getString(7)));
+            }
+        } catch (SQLException e) {
+            System.out.println(" error al listar el inventario " + e);
+        }
+        return lista;
+    }
+/////////////////////////////////////////////////////////////////////////////    
+///////////////////////////METODOS DEL PANEL PRODUCTO////////////////////////
+
+    //METODO PARA ELIMINAR EL PRODUCTO
+    public void eliminarp(long id_producto) {
+        try {
+            st = cn.createStatement();
+            rs = st.executeQuery("DELETE FROM productos where id_productos=" + id_producto);
+        } catch (SQLException e) {
+        }
+    }
+
+    //METODO PARA ACTUALIZAR EL PRODUCTO
+    public void updatep(long producto, String tipo, int precio, String peso, String detalles, int cantidad) {
+        try {
+            st = cn.createStatement();
+            rs = st.executeQuery("UPDATE productos set tipo='" + tipo + "',cantidad=" + cantidad + ",precio=" + precio + ",peso='" + peso + "',detalles='" + detalles + "'" + "where id_producto=" + producto);
+        } catch (SQLException e) {
+        }
+    }
+
+    //METODO PARA ENLISTAR EL PRODUCTO
     public lista_producto listarP(String filtro) {
         lista_producto lista = new lista_producto();
         try {
@@ -214,6 +255,18 @@ public class JavaConexion {
         }
         return lista;
     }
+
+    //METODO PARA AGREGAR PRODUCTOS
+    public void insertarProducto(int id_producto, String tipo, int cantidad, int precio, String peso, String detalles) {
+        try {
+            st = cn.createStatement();
+            rs = st.executeQuery("INSERT INTO PRODUCTOS VALUES (" + id_producto
+                    + ",'" + tipo + "'," + cantidad + "," + precio + ",'" + peso + "','" + detalles + "')");
+        } catch (SQLException e) {
+            e.printStackTrace(System.out);
+        }
+    }
+/////////////////////////////////////////////////////////////////////////////   
 
     //Metodo para poder listar  usado en ventana_comprar
     public Lista_compra MostrarCompra(String filtro) {
@@ -310,26 +363,4 @@ public class JavaConexion {
             return 0;
         }
     }
-
-    //agregar el usuario
-    public void insertU(long cedula, String nombre, long telefono, String correo, String direccion, String estatus, String tipo_usuario) {
-        try {
-            st = cn.createStatement();
-            rs = st.executeQuery("INSERT INTO USUARIOS VALUES (" + cedula + ",'" + nombre + "'," + telefono + ",'" + correo + "','" + direccion + "','" + estatus + "','" + tipo_usuario + "') ");
-        } catch (Exception e) {
-            System.out.println("error al agregar " + e.getMessage());
-        }
-    }
-
-    //Agregar Producto
-    public void insertarProducto(int id_producto, String tipo, int cantidad, int precio, String peso, String detalles) {
-        try {
-            st = cn.createStatement();
-            rs = st.executeQuery("INSERTO INTO PRODUCTOS VALUES (" + id_producto
-                    + ",'" + tipo + "'," + cantidad + "," + precio + ",'" + peso + "','" + detalles + "')");
-        } catch (SQLException e) {
-            e.printStackTrace(System.out);
-        }
-    }
-
 }

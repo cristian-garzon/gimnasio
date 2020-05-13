@@ -62,16 +62,20 @@ public class lista_usuarios {
     public String[][] listado_empleado(JavaConexion BD, String filtro) {
         int i = 0;
         lista_usuarios lista = BD.listar(filtro);
-        String informacion[][] = new String[lista.getTamaño()][4];
-        Nodo_usuarios p = lista.ultimo.sig;
-        do {
-            informacion[i][0] = p.getNombre();
-            informacion[i][1] = "" + p.getTelefono();
-            informacion[i][2] = p.getCorreo();
-            informacion[i][3] = p.getEstatus();
-            i++;
-            p = p.sig;
-        } while (p != lista.ultimo.sig);
-        return informacion;
+        if (!lista.vacio()) {
+            String informacion[][] = new String[lista.getTamaño()][4];
+            Nodo_usuarios p = lista.ultimo.sig;
+            do {
+                informacion[i][0] = p.getNombre();
+                informacion[i][1] = "" + p.getTelefono();
+                informacion[i][2] = p.getCorreo();
+                informacion[i][3] = p.getEstatus();
+                i++;
+                p = p.sig;
+            } while (p != lista.ultimo.sig);
+            return informacion;
+        }
+        String nada [][]= new String [0][0];
+        return nada;
     }
 }

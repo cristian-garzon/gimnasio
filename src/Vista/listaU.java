@@ -233,57 +233,6 @@ public class listaU extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void actualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_actualizarActionPerformed
-        int fila = tabla.getSelectedRow();
-        if (fila >= 0) {
-            BD.eliminar(tabla.getValueAt(fila, 0).toString());
-            mostrar_tabla_admin("");
-            mostrar_tabla_admin("");
-            nombre.setEnabled(false);
-            correo.setEnabled(false);
-            telefono.setEnabled(false);
-            direccion.setEnabled(false);
-            estatus.setEnabled(false);
-            tipo_usuario.setEnabled(false);
-            eliminar.setEnabled(false);
-            actualizar.setEnabled(false);
-            nombre.setText("");
-            correo.setText("");
-            telefono.setText("");
-            direccion.setText("");
-        } else {
-            JOptionPane.showMessageDialog(null, "tiene que escojer una fila para eliminarla");
-        }
-    }//GEN-LAST:event_actualizarActionPerformed
-
-    private void consultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_consultarActionPerformed
-        if (tabla.getSelectedRow() >= 0) {
-            nombre.setEnabled(true);
-            correo.setEnabled(true);
-            telefono.setEnabled(true);
-            direccion.setEnabled(true);
-            estatus.setEnabled(true);
-            tipo_usuario.setEnabled(true);
-            eliminar.setEnabled(true);
-            nombre.setText(tabla.getValueAt(tabla.getSelectedRow(), 1).toString());
-            correo.setText(tabla.getValueAt(tabla.getSelectedRow(), 3).toString());
-            telefono.setText(tabla.getValueAt(tabla.getSelectedRow(), 2).toString());
-            direccion.setText(tabla.getValueAt(tabla.getSelectedRow(), 4).toString());
-            cedulaM = Long.parseLong(tabla.getValueAt(tabla.getSelectedRow(), 0).toString());
-            actualizar.setEnabled(true);
-        } else {
-            JOptionPane.showMessageDialog(null, "tiene que escojer una fila para modificarla");
-
-        }
-    }//GEN-LAST:event_consultarActionPerformed
-
-    private void direccionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_direccionActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_direccionActionPerformed
-
-    private void tipo_usuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tipo_usuarioActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tipo_usuarioActionPerformed
-    private void eliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eliminarActionPerformed
         if (vacio(nombre) + vacio(telefono) + vacio(direccion) + vacio(correo) + numeros(telefono) != 5) {
             JOptionPane.showMessageDialog(null, "no se ha podido modificar los datos");
         } else {
@@ -312,6 +261,58 @@ public class listaU extends javax.swing.JPanel {
             correo.setText("");
             telefono.setText("");
             direccion.setText("");
+            filtrado.setText("");
+        }
+    }//GEN-LAST:event_actualizarActionPerformed
+
+    private void consultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_consultarActionPerformed
+        if (tabla.getSelectedRow() >= 0) {
+            nombre.setEnabled(true);
+            correo.setEnabled(true);
+            telefono.setEnabled(true);
+            direccion.setEnabled(true);
+            estatus.setEnabled(true);
+            tipo_usuario.setEnabled(true);
+            eliminar.setEnabled(true);
+            nombre.setText(tabla.getValueAt(tabla.getSelectedRow(), 1).toString());
+            correo.setText(tabla.getValueAt(tabla.getSelectedRow(), 3).toString());
+            telefono.setText(tabla.getValueAt(tabla.getSelectedRow(), 2).toString());
+            direccion.setText(tabla.getValueAt(tabla.getSelectedRow(), 4).toString());
+            cedulaM = Long.parseLong(tabla.getValueAt(tabla.getSelectedRow(), 0).toString());
+            actualizar.setEnabled(true);
+        } else {
+            JOptionPane.showMessageDialog(null, "tiene que escojer una fila para modificarla");
+        }
+    }//GEN-LAST:event_consultarActionPerformed
+
+    private void direccionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_direccionActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_direccionActionPerformed
+
+    private void tipo_usuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tipo_usuarioActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tipo_usuarioActionPerformed
+    private void eliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eliminarActionPerformed
+        int fila = tabla.getSelectedRow();
+        if (fila >= 0) {
+            BD.eliminar(tabla.getValueAt(fila, 0).toString());
+            mostrar_tabla_admin("");
+            mostrar_tabla_admin("");
+            nombre.setEnabled(false);
+            correo.setEnabled(false);
+            telefono.setEnabled(false);
+            direccion.setEnabled(false);
+            estatus.setEnabled(false);
+            tipo_usuario.setEnabled(false);
+            eliminar.setEnabled(false);
+            actualizar.setEnabled(false);
+            nombre.setText("");
+            correo.setText("");
+            telefono.setText("");
+            direccion.setText("");
+            filtrado.setText("");
+        } else {
+            JOptionPane.showMessageDialog(null, "tiene que escojer una fila para eliminarla");
         }
     }//GEN-LAST:event_eliminarActionPerformed
 
@@ -325,7 +326,7 @@ public class listaU extends javax.swing.JPanel {
 
     private void agregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_agregarActionPerformed
         AgregarUsuario agregar = new AgregarUsuario();
-        agregar.getBD(Nombre,cedula,BD,this);
+        agregar.getBD(Nombre, cedula, BD, this);
         agregar.setVisible(true);
     }//GEN-LAST:event_agregarActionPerformed
 
