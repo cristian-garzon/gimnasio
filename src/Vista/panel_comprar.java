@@ -154,7 +154,10 @@ public class panel_comprar extends javax.swing.JPanel {
                 JOptionPane.showMessageDialog(null, "Su compra se a realizado exitosamente. \n"
                         + "Total a pagar: " + BD.Cantidad_pagar(id_producto, canti),
                         "INFORMACION DE COMPRA ", JOptionPane.INFORMATION_MESSAGE);
-                 Mostrar_productos("");
+                Mostrar_productos("");
+                cantidad1.setText("");
+                ID.setText("");
+                filtro.setText("");
             } else {
                 JOptionPane.showMessageDialog(null, "La cantidad sobrepasa la existente, digite una cantidad valida con respecto el producto  porfavor.",
                         "ADVERTENCIA", JOptionPane.WARNING_MESSAGE);

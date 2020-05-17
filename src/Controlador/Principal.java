@@ -11,8 +11,6 @@ public class Principal {
                 eleccion_gym_db frame = new eleccion_gym_db();
                 frame.setVisible(true);
                 break;
-
         }
-    
 }
 }

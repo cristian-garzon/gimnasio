@@ -8,6 +8,7 @@ package Vista;
 import Modelo.JavaConexion;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
+import javax.swing.WindowConstants;
 
 /**
  *
@@ -47,6 +48,7 @@ public class log extends javax.swing.JFrame {
         setIconImage(new ImageIcon(getClass().getResource("/imagenes/Logov1_opt.jpg")).getImage());
         this.repaint();
     }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -61,6 +63,7 @@ public class log extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
         botonRegistrar = new javax.swing.JButton();
+        volver = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
 
         jLabel11.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
@@ -76,8 +79,8 @@ public class log extends javax.swing.JFrame {
 
         jLabel3.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(204, 204, 204));
-        jLabel3.setText("Inicia Sesion o Registrate");
-        jPanel2.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 70, 180, 30));
+        jLabel3.setText("Inicia Sesion");
+        jPanel2.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 80, 90, 30));
 
         jSeparator3.setBackground(new java.awt.Color(255, 255, 255));
         jSeparator3.setForeground(new java.awt.Color(255, 255, 255));
@@ -136,7 +139,18 @@ public class log extends javax.swing.JFrame {
                 botonRegistrarActionPerformed(evt);
             }
         });
-        jPanel2.add(botonRegistrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 370, 160, 60));
+        jPanel2.add(botonRegistrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 340, 160, 60));
+
+        volver.setBackground(new java.awt.Color(97, 212, 195));
+        volver.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
+        volver.setForeground(new java.awt.Color(255, 255, 255));
+        volver.setText("Volver");
+        volver.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                volverActionPerformed(evt);
+            }
+        });
+        jPanel2.add(volver, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 410, 160, 30));
 
         getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 0, 320, 510));
 
@@ -176,6 +190,20 @@ public class log extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "datos incorrectos");
         }
     }//GEN-LAST:event_botonRegistrarActionPerformed
+
+    private void volverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_volverActionPerformed
+        // TODO add your handling code here:
+        int eleccion = JOptionPane.showConfirmDialog(null, "¿Está seguro de volver a elegir una base de datos?",
+                "MENSAJE DE CONFIRMACION", JOptionPane.WARNING_MESSAGE);
+        if (eleccion == JOptionPane.YES_OPTION) {
+            eleccion_gym_db Nueva = new eleccion_gym_db();
+            Nueva.setVisible(true);
+            setVisible(false);
+            setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        } else {
+            
+        }
+    }//GEN-LAST:event_volverActionPerformed
 
     /**
      * @param args the command line arguments
@@ -225,5 +253,6 @@ public class log extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator5;
     private javax.swing.JPasswordField txtContraseña;
     private javax.swing.JTextField txtUsuario;
+    private javax.swing.JButton volver;
     // End of variables declaration//GEN-END:variables
 }

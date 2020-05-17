@@ -26,13 +26,17 @@ public class JavaConexion {
     public void conectar() {
         switch (opcion) {
             case "postgres":
-                url = "jdbc:postgresql://localhost:5432/GYMDB";
+                url = "jdbc:postgresql://localhost:5432/postgres";
                 user = "postgres";
-                password = "1234";
+                password = "daniel22p3";
                 try {
                     cn = DriverManager.getConnection(url, user, password);
+                    if (cn != null) {
+                        JOptionPane.showMessageDialog(null, "Base de Datos conectada. \n" + cn.toString());
+                    }
                 } catch (SQLException e) {
                     System.out.println("Error" + e.toString());
+                    System.exit(0);
                 }
                 break;
             case "oracle":
@@ -43,24 +47,28 @@ public class JavaConexion {
                     Class.forName("oracle.jdbc.driver.OracleDriver");
                     cn = DriverManager.getConnection(url, user, password);
                     if (cn != null) {
-                        JOptionPane.showMessageDialog(null, "Base de Datos conectada" + cn.toString());
+                        JOptionPane.showMessageDialog(null, "Base de Datos conectada. \n" + cn.toString());
                     }
                 } catch (ClassNotFoundException | SQLException e) {
                     JOptionPane.showMessageDialog(null, e.toString());
+                    System.exit(0);
+
                 }
                 break;
             case "mysql":
                 //Dejar todo por defecto y solo modicar (persona) que se refiere el nombre de la base de datos 
                 //Modicar el usuario y contraseña para que se acomode a su base de datos
                 //Cambiar esos datos en el Metodo Insert que cree ,en lo ultimo
-                url = "jdbc:mysql://localhost/proyecto?useSSL=false&useTimezone=true&serverTimezone=UTC";
+                url = "jdbc:mysql://localhost/sys?user=root&password=rootpassword";
                 user = "root";
-                password = "admin";
+                password = "daniel22p3";
                 try {
                     cn = DriverManager.getConnection(url, user, password);
-                    JOptionPane.showMessageDialog(null, "Conectado a MySql");
+                    JOptionPane.showMessageDialog(null, "Conectado a MySql. \n" + cn.toString());
                 } catch (SQLException e1) {
                     e1.printStackTrace(System.out);
+                    System.exit(0);
+
                 }
 
                 break;
@@ -69,6 +77,7 @@ public class JavaConexion {
 //////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////METODOS DEL LOGIN//////////////////////////////
     //METODO PARA SABER EL TIPO DE USUARIOS QUE ES, SI EMPLEADO, ADMINISTRADOR O CLIENTE
+
     public String estatus(String nombre, String cedula) {
         try {
             st = cn.createStatement();
@@ -102,6 +111,7 @@ public class JavaConexion {
 //////////////////////////////////////////////////////////////////////////////
 ///////////////////////METODOS DEL PANEL USUARIO//////////////////////////////
     //METODO PARA ELIMINAR EL USUARIO
+
     public void eliminar(String cedula) {
         try {
             st = cn.createStatement();
@@ -136,10 +146,10 @@ public class JavaConexion {
     }
 
     //METODO PARA SABER QUE NO ESTA DUPLICANDO EL USUARIO
-    public boolean pk(long id,String lista,String indicador) {
+    public boolean pk(long id, String lista, String indicador) {
         try {
             st = cn.createStatement();
-            rs = st.executeQuery("SELECT cedula FROM "+lista+" where "+indicador+"=" + id + "");
+            rs = st.executeQuery("SELECT cedula FROM " + lista + " where " + indicador + "=" + id + "");
             while (rs.next()) {
                 System.out.println(rs.getString(1));
                 System.out.println(id);
@@ -178,6 +188,7 @@ public class JavaConexion {
 //////////////////////////////////////////////////////////////////////////////
 /////////////////////METODOS DE EL PANEL DE INVENTARIO////////////////////////    
     //METODO PARA ACTUALIZAR EL INVENTARIO
+
     public void updatei(String nombre, String tipo_objeto, String caracteristicas, String estado, int unidades, int id) {
         try {
             st = cn.createStatement();
@@ -343,7 +354,7 @@ public class JavaConexion {
             }
 
         } catch (SQLException e) {
-            System.out.println("hubo un error en modificar_cantidad");
+            System.out.println("hubo un error en modificar_cantidad"+e.getMessage());
         }
     }
 
