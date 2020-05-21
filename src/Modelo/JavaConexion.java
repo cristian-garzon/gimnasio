@@ -1,7 +1,15 @@
 package Modelo;
 
 import Controlador.*;
+import com.itextpdf.text.pdf.ByteBuffer;
+import com.sun.pdfview.PDFFile;
+import java.awt.image.BufferedImage;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+import java.nio.channels.FileChannel;
 import java.sql.*;
+import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 
 public class JavaConexion {
@@ -66,9 +74,8 @@ public class JavaConexion {
                     cn = DriverManager.getConnection(url, user, password);
                     JOptionPane.showMessageDialog(null, "Conectado a MySql. \n" + cn.toString());
                 } catch (SQLException e1) {
-                    e1.printStackTrace(System.out);
+                    JOptionPane.showMessageDialog(null, e1.toString());
                     System.exit(0);
-
                 }
 
                 break;
@@ -343,12 +350,12 @@ public class JavaConexion {
             }
 
         } catch (SQLException e) {
-            System.out.println("Hubo un error cod 01 en modificar cantidad");
+            System.out.println("Hubo un error cod 01 en modificar cantidad"+e.getMessage());
         }
         String sql = "update productos set cantidad=" + auxiliar + " where id_producto=" + id_producto;
         try {
             st = cn.createStatement();
-            rs = st.executeQuery(sql);
+            st.executeUpdate(sql);
             while (rs.next()) {
                 JOptionPane.showMessageDialog(null, "Compra exitosa", "COMPRA EXITOSA", JOptionPane.INFORMATION_MESSAGE);
             }
@@ -374,4 +381,54 @@ public class JavaConexion {
             return 0;
         }
     }
+    
+//    //Metodo para mostrar recibos en pdf
+//    public Lista_pdf Cargar_lista(String filtro){
+//        Lista_pdf Lista = new Lista_pdf();
+//        try {
+//            st = cn.createStatement();
+//            rs = st.executeQuery("select * from recibos_pdf where nombrepdf like  '" + filtro + "%'");
+//            while (rs.next()) {
+//                Lista.AgregarPDF(Integer.parseInt(rs.getString(1)),rs.getString(2),rs.getBytes(3));
+//            }
+//        } catch (SQLException e) {
+//            System.out.println("Hubo un error en mostrar compra." + e.getMessage());
+//        }catch(Exception e){
+//            System.out.println("Error"+e.getMessage());
+//        }
+//        return Lista;
+//    }
+    
+    //Metodo para traer el nombre del articulo RECIBO
+    public String Nombre_compra(int ID, String atributo){
+        String sql = "select "+ atributo+" from productos where id_producto="+ID;
+        String nombre = null;
+        try{
+            st = cn.createStatement();
+            rs = st.executeQuery(sql);
+            while(rs.next()){
+                nombre = rs.getString(1);
+            }
+            return nombre;
+        }catch(SQLException e){
+            System.out.println("Error de la sentencia"+e.getMessage());
+            return nombre;
+        }
+    }
+    
+    //Metodo para poner el archivo pdf en la BD
+    public void insertarPDF(String ruta){
+        try{
+            FileInputStream pdf = new FileInputStream(ruta);
+            String sql = "insert into recibos values(?)";
+            PreparedStatement ps = cn.prepareStatement(sql);
+            ps.setBinaryStream(1,pdf, pdf.available());
+            ps.executeUpdate();
+            System.out.println("Se agregó correctamente");
+        }catch(Exception e){
+            System.out.println(e.getMessage());
+        }
+    }
+    
+    
 }

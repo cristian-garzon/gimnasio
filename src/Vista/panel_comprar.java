@@ -1,11 +1,28 @@
 package Vista;
 
+import java.util.Date;
 import Controlador.Lista_compra;
 import Modelo.JavaConexion;
 import java.awt.Graphics;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
+//importaciones para generar recibo de la libreria iText
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfWriter;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.Font;
+import com.itextpdf.text.Font.FontFamily;
+import java.awt.BorderLayout;
+import java.awt.Desktop;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JFileChooser;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
  *
@@ -15,6 +32,13 @@ public class panel_comprar extends javax.swing.JPanel {
 
     JavaConexion BD;
     String Nombre, cedula;
+    int id;
+    int cantid;
+    String ruta;
+
+    public String getRuta() {
+        return ruta;
+    }
 
     public panel_comprar() {
         initComponents();
@@ -39,6 +63,10 @@ public class panel_comprar extends javax.swing.JPanel {
         }
     }
 
+    public String getNombreRecibo(String nombre, String cedula, JavaConexion BD) {
+        return nombre + " CC: " + cedula + "     Cargo: " + BD.estatus(nombre, cedula);
+    }
+
     //Metodo para dar los titulos a la tabla
     public void Mostrar_productos(String filtro) {
         Lista_compra lista = new Lista_compra();
@@ -46,6 +74,42 @@ public class panel_comprar extends javax.swing.JPanel {
         String Datos[][] = lista.Listado_compra(BD, filtro);
         Tabla = new JTable(Datos, cabecera);
         Scroll.setViewportView(Tabla);
+
+    }
+
+    //Metodo para generar el recibo de pago
+    public void generar(String nombre, int id, int cantidad) throws FileNotFoundException, DocumentException {
+        if (!(cantidad1.getText().isEmpty() || (ID.getText().isEmpty()))) {
+            //Fuente para titulos
+            Date fechaandhora = new Date();
+            Font fuente = new Font(FontFamily.TIMES_ROMAN, 26);
+            fuente.setStyle(Font.BOLD | Font.UNDERLINE);
+            //Fuente para informacion
+            Font fuente_informacion = new Font(FontFamily.COURIER, 15);
+            fuente_informacion.setStyle(Font.ITALIC);
+            FileOutputStream archivo = new FileOutputStream("Recibo_compra_" + nombre + ".pdf");
+            Document documento = new Document();
+            PdfWriter.getInstance(documento, archivo);
+            documento.open();
+
+            Paragraph parrafo = new Paragraph("Recibo\n"
+                    + "\t Compra hecha en BuffGYM.\n", fuente);
+            parrafo.setAlignment(1);
+            documento.add(parrafo);
+            documento.add(new Paragraph("\n"));
+            documento.add(new Paragraph("\t Buff GYM \n"
+                    + "Fecha y hora de la compra: " + fechaandhora.toString() + "\n"));
+            documento.add(new Paragraph("Nombre del encargado: \t" + getNombreRecibo(Nombre, cedula, BD) + "\n"));
+            documento.add(new Paragraph("Articulo comprado: \t" + BD.Nombre_compra(id, "tipo") + "\n"));
+            documento.add(new Paragraph("Cantidad de articulo: \t" + cantidad1.getText() + "\n"));
+            documento.add(new Paragraph("Valor unitario del articulo: \t" + BD.Nombre_compra(id, "precio") + "\n"));
+            documento.add(new Paragraph("---------------------------------------------------" + "\n"));
+            documento.add(new Paragraph("Total a pagar: \t" + BD.Cantidad_pagar(id, cantidad)));
+            documento.close();
+            JOptionPane.showMessageDialog(null, "Recibo  PDF creado correctamente");
+        } else {
+            JOptionPane.showMessageDialog(null, "Debe llenar todos los campos", "Atención", 2);
+        }
 
     }
 
@@ -59,6 +123,7 @@ public class panel_comprar extends javax.swing.JPanel {
     private void initComponents() {
 
         jTextField1 = new javax.swing.JTextField();
+        jButton1 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         Scroll = new javax.swing.JScrollPane();
         Tabla = new javax.swing.JTable();
@@ -70,15 +135,22 @@ public class panel_comprar extends javax.swing.JPanel {
         ID = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         cantidad1 = new javax.swing.JTextField();
+        imprimir = new javax.swing.JButton();
+        recibos_generados = new javax.swing.JButton();
+        jLabel5 = new javax.swing.JLabel();
+        nombre = new javax.swing.JTextField();
+        insertar = new javax.swing.JButton();
 
         jTextField1.setText("jTextField1");
+
+        jButton1.setText("jButton1");
 
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel1.setFont(new java.awt.Font("Century Gothic", 0, 24)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Comprar Buff GYM");
-        add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 100, 230, 50));
+        add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 10, 230, 50));
 
         Tabla.setBackground(new java.awt.Color(51, 51, 51));
         Tabla.setForeground(new java.awt.Color(255, 255, 255));
@@ -100,12 +172,12 @@ public class panel_comprar extends javax.swing.JPanel {
         jLabel2.setFont(new java.awt.Font("Century Gothic", 3, 18)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("Buscar por Nombre");
-        add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 230, 180, 30));
+        add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 130, 180, 30));
 
         jLabel3.setFont(new java.awt.Font("Century Gothic", 3, 18)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel3.setText("Digite la cantidad a comprar");
-        add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 270, 260, 30));
+        jLabel3.setText("Digite el nombre del comprador");
+        add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 230, 290, 30));
 
         filtro.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
         filtro.setForeground(new java.awt.Color(0, 0, 0));
@@ -114,7 +186,7 @@ public class panel_comprar extends javax.swing.JPanel {
                 filtroKeyReleased(evt);
             }
         });
-        add(filtro, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 230, 130, 30));
+        add(filtro, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 130, 130, 30));
 
         comprar.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
         comprar.setText("COMPRAR");
@@ -123,38 +195,93 @@ public class panel_comprar extends javax.swing.JPanel {
                 comprarActionPerformed(evt);
             }
         });
-        add(comprar, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 280, 150, 50));
+        add(comprar, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 280, 150, 40));
 
         presentacion.setFont(new java.awt.Font("Century Gothic", 0, 24)); // NOI18N
         presentacion.setForeground(new java.awt.Color(255, 255, 255));
         presentacion.setText("Compra de");
-        add(presentacion, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 10, 550, 60));
+        add(presentacion, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 550, 60));
 
         ID.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
         ID.setForeground(new java.awt.Color(51, 51, 51));
-        add(ID, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 310, 100, 30));
+        add(ID, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 280, 100, 30));
 
         jLabel4.setFont(new java.awt.Font("Century Gothic", 3, 18)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
         jLabel4.setText("Digite el ID del producto que desea comprar");
-        add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 310, 400, 30));
+        add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 280, 400, 30));
 
         cantidad1.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
         cantidad1.setForeground(new java.awt.Color(0, 0, 0));
-        add(cantidad1, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 270, 100, 30));
+        cantidad1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cantidad1ActionPerformed(evt);
+            }
+        });
+        add(cantidad1, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 180, 100, 30));
+
+        imprimir.setFont(new java.awt.Font("Century Gothic", 2, 14)); // NOI18N
+        imprimir.setText("Imprimir Recibo");
+        imprimir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                imprimirActionPerformed(evt);
+            }
+        });
+        add(imprimir, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 320, 150, -1));
+
+        recibos_generados.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
+        recibos_generados.setText("Recibos generados");
+        recibos_generados.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                recibos_generadosActionPerformed(evt);
+            }
+        });
+        add(recibos_generados, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 80, 230, 40));
+
+        jLabel5.setFont(new java.awt.Font("Century Gothic", 3, 18)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel5.setText("Digite la cantidad a comprar");
+        add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 180, 260, 30));
+
+        nombre.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
+        nombre.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                nombreActionPerformed(evt);
+            }
+        });
+        add(nombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 230, 150, -1));
+
+        insertar.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
+        insertar.setText("Guardar Recibo en DB");
+        insertar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                insertarActionPerformed(evt);
+            }
+        });
+        add(insertar, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 130, 230, 40));
     }// </editor-fold>//GEN-END:initComponents
 
     private void comprarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comprarActionPerformed
         // TODO add your handling code here:
         int id_producto = Integer.parseInt(ID.getText());
+        this.id = id_producto;
         if (BD.Validar_producto(id_producto)) {
             int canti = Integer.parseInt(cantidad1.getText());
+            this.cantid = canti;
             if (BD.validar_cantidad(id_producto, canti)) {
                 BD.Modificar_cantidad(id_producto, canti);
+                try {
+                    generar(nombre.getText(), id_producto, canti);
+                } catch (FileNotFoundException ex) {
+                    Logger.getLogger(panel_comprar.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (DocumentException ex) {
+                    Logger.getLogger(panel_comprar.class.getName()).log(Level.SEVERE, null, ex);
+                }
                 JOptionPane.showMessageDialog(null, "Su compra se a realizado exitosamente. \n"
                         + "Total a pagar: " + BD.Cantidad_pagar(id_producto, canti),
                         "INFORMACION DE COMPRA ", JOptionPane.INFORMATION_MESSAGE);
                 Mostrar_productos("");
+
                 cantidad1.setText("");
                 ID.setText("");
                 filtro.setText("");
@@ -174,6 +301,45 @@ public class panel_comprar extends javax.swing.JPanel {
         Mostrar_productos(filtro.getText().trim());
     }//GEN-LAST:event_filtroKeyReleased
 
+    private void imprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_imprimirActionPerformed
+        panel_recibos mostrar = new panel_recibos();
+        mostrar.setVisible(true);
+        mostrar.setLocationRelativeTo(null);
+    }//GEN-LAST:event_imprimirActionPerformed
+
+    private void recibos_generadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_recibos_generadosActionPerformed
+        // TODO add your handling code here:
+        JFileChooser jf = new JFileChooser();
+        jf.addChoosableFileFilter(new FileNameExtensionFilter("Documentos", "pdf"));
+        int seleccion = jf.showOpenDialog(this);
+        if (seleccion == JFileChooser.APPROVE_OPTION) {
+            File pdf = jf.getSelectedFile();
+            ruta = pdf.getAbsolutePath();
+        }
+    }//GEN-LAST:event_recibos_generadosActionPerformed
+
+    private void nombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nombreActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_nombreActionPerformed
+
+    private void cantidad1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cantidad1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cantidad1ActionPerformed
+
+    private void insertarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_insertarActionPerformed
+        // TODO add your handling code here:
+        try {
+            if (!ruta.equals("")) {
+                BD.insertarPDF(ruta);
+            } else {
+                JOptionPane.showMessageDialog(null, "Debe realizar la compra primero");
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Debe realizar la compra primero");
+
+        }
+    }//GEN-LAST:event_insertarActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField ID;
@@ -182,11 +348,17 @@ public class panel_comprar extends javax.swing.JPanel {
     private javax.swing.JTextField cantidad1;
     private javax.swing.JButton comprar;
     private javax.swing.JTextField filtro;
+    private javax.swing.JButton imprimir;
+    private javax.swing.JButton insertar;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField nombre;
     private javax.swing.JLabel presentacion;
+    private javax.swing.JButton recibos_generados;
     // End of variables declaration//GEN-END:variables
 }
