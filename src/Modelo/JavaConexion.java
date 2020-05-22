@@ -34,9 +34,9 @@ public class JavaConexion {
     public void conectar() {
         switch (opcion) {
             case "postgres":
-                url = "jdbc:postgresql://localhost:5432/postgres";
+                url = "jdbc:postgresql://localhost:5432/GYMDB";
                 user = "postgres";
-                password = "daniel22p3";
+                password = "1234";
                 try {
                     cn = DriverManager.getConnection(url, user, password);
                     if (cn != null) {
@@ -50,7 +50,7 @@ public class JavaConexion {
             case "oracle":
                 url = "jdbc:oracle:thin:@localhost:1521:XE";
                 user = "system";
-                password = "daniel22p3";
+                password = "1234";
                 try {
                     Class.forName("oracle.jdbc.driver.OracleDriver");
                     cn = DriverManager.getConnection(url, user, password);
@@ -64,12 +64,9 @@ public class JavaConexion {
                 }
                 break;
             case "mysql":
-                //Dejar todo por defecto y solo modicar (persona) que se refiere el nombre de la base de datos 
-                //Modicar el usuario y contraseña para que se acomode a su base de datos
-                //Cambiar esos datos en el Metodo Insert que cree ,en lo ultimo
-                url = "jdbc:mysql://localhost/sys?user=root&password=rootpassword";
+                url = "jdbc:mysql://localhost/gymdb?useSSL=false&useTimezone=true&serverTimezone=UTC";
                 user = "root";
-                password = "daniel22p3";
+                password = "1234";
                 try {
                     cn = DriverManager.getConnection(url, user, password);
                     JOptionPane.showMessageDialog(null, "Conectado a MySql. \n" + cn.toString());
@@ -77,7 +74,6 @@ public class JavaConexion {
                     JOptionPane.showMessageDialog(null, e1.toString());
                     System.exit(0);
                 }
-
                 break;
         }
     }
@@ -122,8 +118,9 @@ public class JavaConexion {
     public void eliminar(String cedula) {
         try {
             st = cn.createStatement();
-            rs = st.executeQuery("DELETE FROM usuarios where cedula=" + cedula);
+            st.executeUpdate("DELETE FROM  usuarios where cedula=" + cedula);
         } catch (SQLException e) {
+            System.out.println(e);
         }
     }
 
@@ -146,7 +143,7 @@ public class JavaConexion {
     public void insertU(long cedula, String nombre, long telefono, String correo, String direccion, String estatus, String tipo_usuario) {
         try {
             st = cn.createStatement();
-            rs = st.executeQuery("INSERT INTO USUARIOS VALUES (" + cedula + ",'" + nombre + "'," + telefono + ",'" + correo + "','" + direccion + "','" + estatus + "','" + tipo_usuario + "') ");
+            st.executeUpdate("INSERT INTO USUARIOS VALUES (" + cedula + ",'" + nombre + "'," + telefono + ",'" + correo + "','" + direccion + "','" + estatus + "','" + tipo_usuario + "') ");
         } catch (Exception e) {
             System.out.println("error al agregar a los usuarios " + e);
         }
@@ -199,7 +196,7 @@ public class JavaConexion {
     public void updatei(String nombre, String tipo_objeto, String caracteristicas, String estado, int unidades, int id) {
         try {
             st = cn.createStatement();
-            st.execute("update inventario set nombre= '" + nombre + "', tipo_objeto='" + tipo_objeto + "', caracteristicas='" + caracteristicas + "', estado='" + estado + "',unidades=" + unidades + " where id=" + id);
+            st.executeUpdate("update inventario set nombre= '" + nombre + "', tipo_objeto='" + tipo_objeto + "', caracteristicas='" + caracteristicas + "', estado='" + estado + "',unidades=" + unidades + " where id=" + id);
         } catch (Exception e) {
             System.out.println("error al actualizar el inventario " + e);
         }
@@ -209,7 +206,7 @@ public class JavaConexion {
     public void inserti(String nombre, String tipo_objeto, String caracteristicas, String estado, int unidades) {
         try {
             st = cn.createStatement();
-            rs = st.executeQuery("INSERT INTO INVENTARIO  (fecha_ingreso,nombre,tipo_objeto,caracteristicas,estado,unidades) VALUES(current_date,'" + nombre + "','" + tipo_objeto + "','" + caracteristicas + "','" + estado + "'," + unidades + ")");
+            st.executeUpdate("INSERT INTO INVENTARIO  (fecha_ingreso,nombre,tipo_objeto,caracteristicas,estado,unidades) VALUES(current_date,'" + nombre + "','" + tipo_objeto + "','" + caracteristicas + "','" + estado + "'," + unidades + ")");
         } catch (SQLException e) {
             System.out.println("error al agregar al inventario " + e);
         }
@@ -245,7 +242,7 @@ public class JavaConexion {
     public void eliminarp(long id_producto) {
         try {
             st = cn.createStatement();
-            rs = st.executeQuery("DELETE FROM productos where id_productos=" + id_producto);
+            st.executeUpdate("DELETE FROM productos where id_productos=" + id_producto);
         } catch (SQLException e) {
         }
     }
@@ -254,7 +251,7 @@ public class JavaConexion {
     public void updatep(long producto, String tipo, int precio, String peso, String detalles, int cantidad) {
         try {
             st = cn.createStatement();
-            rs = st.executeQuery("UPDATE productos set tipo='" + tipo + "',cantidad=" + cantidad + ",precio=" + precio + ",peso='" + peso + "',detalles='" + detalles + "'" + "where id_producto=" + producto);
+            st.executeUpdate("UPDATE productos set tipo='" + tipo + "',cantidad=" + cantidad + ",precio=" + precio + ",peso='" + peso + "',detalles='" + detalles + "'" + "where id_producto=" + producto);
         } catch (SQLException e) {
         }
     }
@@ -278,7 +275,7 @@ public class JavaConexion {
     public void insertarProducto(int id_producto, String tipo, int cantidad, int precio, String peso, String detalles) {
         try {
             st = cn.createStatement();
-            rs = st.executeQuery("INSERT INTO PRODUCTOS VALUES (" + id_producto
+            st.executeUpdate("INSERT INTO PRODUCTOS VALUES (" + id_producto
                     + ",'" + tipo + "'," + cantidad + "," + precio + ",'" + peso + "','" + detalles + "')");
         } catch (SQLException e) {
             e.printStackTrace(System.out);

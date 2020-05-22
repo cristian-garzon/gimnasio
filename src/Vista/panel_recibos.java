@@ -1,6 +1,4 @@
-
 package Vista;
-
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -9,14 +7,8 @@ import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
-
 import javax.swing.*;
-
 import com.sun.pdfview.*;
-/**
- *
- * @author Daniel
- */
 public class panel_recibos extends JFrame {
 	
 	PagePanel panelpdf;
