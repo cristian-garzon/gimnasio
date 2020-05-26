@@ -222,7 +222,8 @@ public class productos extends javax.swing.JPanel {
             update.setEnabled(true);
             eliminar.setEnabled(true);
             String declaracion = tabla.getValueAt(tabla.getSelectedRow(), 4).toString();
-            if (!declaracion.equals("")) {
+            System.out.println(declaracion);
+            if (!declaracion.equals("")&&!declaracion.equals(" ")) {
                 peso1.setVisible(true);
                 peso.setVisible(true);
                 peso.setText(tabla.getValueAt(tabla.getSelectedRow(), 4).toString());

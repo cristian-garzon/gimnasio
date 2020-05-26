@@ -38,6 +38,16 @@ public class AgregarProducto extends javax.swing.JFrame {
         } else {
             i.setVisible(false);
         }
+        if ((opcionTipo(tipo) == "suplemento" || opcionTipo(tipo) == "mancuerna" || opcionTipo(tipo) == "barra" || opcionTipo(tipo) == "discos")) {
+            if (txtPeso.getText().isEmpty()) {
+                pe.setVisible(true);
+            } else {
+                pe.setVisible(false);
+            }
+        }
+        else{
+            txtPeso.setText(" ");
+        }
         if (txtCantidad.getText().isEmpty()) {
             ca.setVisible(true);
         } else {
@@ -47,11 +57,6 @@ public class AgregarProducto extends javax.swing.JFrame {
             pr.setVisible(true);
         } else {
             pr.setVisible(false);
-        }
-        if (txtPeso.getText().isEmpty()) {
-            pe.setVisible(true);
-        } else {
-            pe.setVisible(false);
         }
         if (jtDetalles.getText().isEmpty()) {
             de.setVisible(true);
@@ -297,22 +302,21 @@ public class AgregarProducto extends javax.swing.JFrame {
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         if (validar()) {
-            if(bd.pk(Long.parseLong(txtId.getText().trim()), "PRODUCTOS", "ID")){
-            bd.insertarProducto(Integer.parseInt(txtId.getText().trim()),
-                    opcionTipo(tipo),
-                    Integer.parseInt(txtCantidad.getText().trim()),
-                    Integer.parseInt(txtPrecio.getText().trim()),
-                    txtPeso.getText().trim(), jtDetalles.getText().trim());
-            JOptionPane.showMessageDialog(null, "Producto Agregado", "Agregando Producto", JOptionPane.INFORMATION_MESSAGE);
+            if (bd.pk(Long.parseLong(txtId.getText().trim()), "ID_PRODUCTO", "PRODUCTOS", "ID_PRODUCTO")) {
+                bd.insertarProducto(Integer.parseInt(txtId.getText().trim()),
+                        opcionTipo(tipo),
+                        Integer.parseInt(txtCantidad.getText().trim()),
+                        Integer.parseInt(txtPrecio.getText().trim()),
+                        txtPeso.getText().trim(), jtDetalles.getText().trim());
+                JOptionPane.showMessageDialog(null, "Producto Agregado", "Agregando Producto", JOptionPane.INFORMATION_MESSAGE);
 
-            txtId.setText("");
-            txtCantidad.setText("");
-            txtPrecio.setText("");
-            txtPeso.setText("");
-            jtDetalles.setText("");
-            this.setVisible(false);
-            }
-            else{
+                txtId.setText("");
+                txtCantidad.setText("");
+                txtPrecio.setText("");
+                txtPeso.setText("");
+                jtDetalles.setText("");
+                this.setVisible(false);
+            } else {
                 JOptionPane.showMessageDialog(null, "identificador duplicado");
             }
         } else {
@@ -375,13 +379,13 @@ public class AgregarProducto extends javax.swing.JFrame {
     }//GEN-LAST:event_tipoMouseClicked
 
     private void tipoItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_tipoItemStateChanged
-        if ((opcionTipo(tipo) == "suplemento" || opcionTipo(tipo) == "mancuerna" || opcionTipo(tipo) == "barra" || opcionTipo(tipo) == "discos")) {
+        if (!(opcionTipo(tipo) == "suplemento" || opcionTipo(tipo) == "mancuerna" || opcionTipo(tipo) == "barra" || opcionTipo(tipo) == "discos")) {
             lbPeso.setVisible(false);
             txtPeso.setText("");
             txtPeso.setVisible(false);
         } else {
-
-            lbPeso.setVisible(false);
+            txtPeso.setText(" ");
+            lbPeso.setVisible(true);
             txtPeso.setVisible(true);
         }
     }//GEN-LAST:event_tipoItemStateChanged

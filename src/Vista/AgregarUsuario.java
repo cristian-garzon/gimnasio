@@ -267,7 +267,7 @@ public class AgregarUsuario extends javax.swing.JFrame {
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         if (validar()) {
-            if (BD.pk(Long.parseLong(txtCedula.getText().trim()),"USUARIOS","CEDULA")) {
+            if (BD.pk(Long.parseLong(txtCedula.getText().trim()),"CEDULA","USUARIOS","CEDULA")) {
                 String mensaje;
                 String mensaje1;
                 mensaje = Estatus.getSelectedItem().toString().toLowerCase();

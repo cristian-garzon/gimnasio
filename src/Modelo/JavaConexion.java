@@ -43,7 +43,7 @@ public class JavaConexion {
                         JOptionPane.showMessageDialog(null, "Base de Datos conectada. \n" + cn.toString());
                     }
                 } catch (SQLException e) {
-                    System.out.println("Error" + e.toString());
+                    JOptionPane.showMessageDialog(null,"Error" + e.toString());
                     System.exit(0);
                 }
                 break;
@@ -150,10 +150,10 @@ public class JavaConexion {
     }
 
     //METODO PARA SABER QUE NO ESTA DUPLICANDO EL USUARIO
-    public boolean pk(long id, String lista, String indicador) {
+    public boolean pk(long id, String columna,String lista, String indicador) {
         try {
             st = cn.createStatement();
-            rs = st.executeQuery("SELECT cedula FROM " + lista + " where " + indicador + "=" + id + "");
+            rs = st.executeQuery("SELECT "+columna+" FROM " + lista + " where " + indicador + "=" + id + "");
             while (rs.next()) {
                 System.out.println(rs.getString(1));
                 System.out.println(id);
@@ -242,8 +242,9 @@ public class JavaConexion {
     public void eliminarp(long id_producto) {
         try {
             st = cn.createStatement();
-            st.executeUpdate("DELETE FROM productos where id_productos=" + id_producto);
+            st.executeUpdate("DELETE FROM productos where id_producto=" + id_producto);
         } catch (SQLException e) {
+            System.out.println(e);
         }
     }
 
